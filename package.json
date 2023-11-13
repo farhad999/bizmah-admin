@@ -124,6 +124,7 @@
     "jquery": "3.6.1",
     "jquery-datatables-checkboxes": "1.2.13",
     "jquery-sticky": "1.0.4",
+    "jquery-validation": "^1.20.0",
     "jquery.repeater": "1.2.1",
     "jstree": "3.3.12",
     "jszip": "3.10.1",
