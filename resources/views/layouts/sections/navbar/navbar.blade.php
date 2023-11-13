@@ -52,7 +52,7 @@
               <li class="nav-item navbar-dropdown dropdown-user dropdown">
                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                   <div class="avatar avatar-online">
-                    <img src="{{ Auth::user() ? Auth::user()->profile_photo_url : asset('assets/img/avatars/1.png') }}"
+                    <img src="{{asset('assets/img/avatars/1.png')}}"
                          alt class="w-px-40 h-auto rounded-circle">
                   </div>
                 </a>
@@ -64,7 +64,7 @@
                         <div class="flex-shrink-0 me-3">
                           <div class="avatar avatar-online">
                             <img
-                              src="{{ Auth::user() ? Auth::user()->profile_photo_url : asset('assets/img/avatars/1.png') }}"
+                              src="{{asset('assets/img/avatars/1.png')}}"
                               alt class="w-px-40 h-auto rounded-circle">
                           </div>
                         </div>
@@ -91,37 +91,21 @@
                       <span class="align-middle">My Profile</span>
                     </a>
                   </li>
-                  @if (Auth::check() && Laravel\Jetstream\Jetstream::hasApiFeatures())
-                    <li>
-                      <a class="dropdown-item" href="{{ route('api-tokens.index') }}">
-                        <i class='ti ti-key me-2 ti-sm'></i>
-                        <span class="align-middle">API Tokens</span>
-                      </a>
-                    </li>
-                  @endif
                   <li>
                     <div class="dropdown-divider"></div>
                   </li>
-                  @if (Auth::check())
-                    <li>
-                      <a class="dropdown-item" href="{{ route('logout') }}"
-                         onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                        <i class='ti ti-logout me-2'></i>
-                        <span class="align-middle">Logout</span>
-                      </a>
-                    </li>
-                    <form method="POST" id="logout-form" action="{{ route('logout') }}">
+
+                  <li>
+                    <a class="dropdown-item" href="{{ route('auth.logout') }}"
+                       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                      <i class='ti ti-logout me-2'></i>
+                      <span class="align-middle">Logout</span>
+                    </a>
+                    <form method="POST" id="logout-form" action="{{ route('auth.logout') }}">
                       @csrf
                     </form>
-                  @else
-                    <li>
-                      <a class="dropdown-item"
-                         href="{{ Route::has('login') ? route('login') : url('/login') }}">
-                        <i class='ti ti-login me-2'></i>
-                        <span class="align-middle">Login</span>
-                      </a>
-                    </li>
-                  @endif
+                  </li>
+
                 </ul>
               </li>
               <!--/ User -->
