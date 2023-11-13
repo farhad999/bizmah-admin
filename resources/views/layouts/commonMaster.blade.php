@@ -39,7 +39,7 @@
 
 <!-- Include Scripts -->
 @include('layouts/sections/scripts')
-
+{!! Toastr::message() !!}
 </body>
 
 </html>
