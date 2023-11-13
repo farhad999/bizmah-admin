@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
 // authentication
@@ -16,6 +17,10 @@ Route::post('/logout', [AuthController::class, 'logout'])
 Route::middleware(['auth'])->group(function () {
   Route::get('/', [HomeController::class, 'index'])
     ->name('home.index');
+
+  //user
+  Route::resource('/users', UserController::class);
+
 });
 
 

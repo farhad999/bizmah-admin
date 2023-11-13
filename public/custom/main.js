@@ -62,6 +62,18 @@ $(document).ready(function () {
 
   }
 
+  //data tables
+
+  jQuery.extend($.fn.dataTable.defaults, {
+    //Uncomment below line to enable save state of datatable.
+    //stateSave: true,
+    fixedHeader: true,
+    aaSorting: [],
+    columnDefs: [
+      {targets: "_all", orderable: false},
+    ],
+  });
+
 })
 
 function addRules(form) {

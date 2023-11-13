@@ -18,6 +18,10 @@
 <link rel="stylesheet" href="{{ asset(mix('assets/vendor/libs/node-waves/node-waves.css')) }}" />
 <link rel="stylesheet" href="{{ asset(mix('assets/vendor/libs/typeahead-js/typeahead.css')) }}" />
 <link rel="stylesheet" href="{{ asset(mix('assets/vendor/libs/toastr/toastr.css')) }}" />
+<link rel="stylesheet" href="{{ asset(mix('assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css')) }}" />
+<link rel="stylesheet" href="{{mix('assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css')}}">
+<link rel="stylesheet" href="{{mix('assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css')}}" />
+
 
 <!-- Vendor Styles -->
 @yield('vendor-style')
