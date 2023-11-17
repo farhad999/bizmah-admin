@@ -125,3 +125,37 @@ function imagePreview(input, placeToInsertImagePreview) {
   }
 
 }
+
+$(document).on('click', '.delete-item-btn', function () {
+
+  let url = $(this).data('href');
+
+  Swal.fire({
+    title: 'Are you sure?',
+    text: "You won't be able to revert this!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#d33',
+    cancelButtonColor: '#4e90bd',
+    confirmButtonText: 'Yes, delete it!'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      $.ajax({
+        url: url,
+        method: 'delete',
+        dataType: 'json',
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function (res) {
+          toastr.success(res.message);
+          window.location.reload();
+        },
+        error: function (er) {
+          console.log(er)
+        }
+      });
+
+    }
+  })
+});

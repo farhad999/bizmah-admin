@@ -10,6 +10,7 @@
 <script src="{{asset(mix('assets/vendor/libs/jquery-validation/jquery-validation.js'))}}"></script>
 <script src="{{asset(mix('assets/vendor/libs/toastr/toastr.js'))}}"></script>
 <script src="{{asset(mix('assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js'))}}"></script>
+<script src="{{asset(mix('assets/vendor/libs/sweetalert2/sweetalert2.js'))}}"></script>
 <script src="{{asset('custom/main.js')}}"></script>
 @yield('vendor-script')
 <!-- END: Page Vendor JS-->

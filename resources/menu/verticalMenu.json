@@ -11,6 +11,22 @@
       "name": "Users",
       "icon": "menu-icon tf-icons ti ti-user",
       "slug": "users.index"
+    },
+    {
+      "name": "Brands",
+      "slug": "brands",
+      "submenu": [
+        {
+          "url": "/brands",
+          "name": "Brands",
+          "slug": "brands.index"
+        },
+        {
+          "url": "/brands/create",
+          "name": "Create",
+          "slug": "brands.create"
+        }
+      ]
     }
   ]
 }

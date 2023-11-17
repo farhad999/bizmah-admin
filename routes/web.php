@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\BrandController;
 use Illuminate\Support\Facades\Route;
 
 // authentication
@@ -20,6 +21,7 @@ Route::middleware(['auth'])->group(function () {
 
   //user
   Route::resource('/users', UserController::class);
+  Route::resource('/brands', BrandController::class);
 
 });
 
