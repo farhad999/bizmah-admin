@@ -74,7 +74,13 @@ $(document).ready(function () {
     ],
   });
 
+  //image
+  $('.image-input').on('change', function () {
+    imagePreview(this, 'div.image-preview-gallery');
+  });
+
 })
+
 
 function addRules(form) {
   let rules = {};
@@ -95,3 +101,27 @@ function addRules(form) {
   return rules;
 }
 
+//File Upload
+
+function imagePreview(input, placeToInsertImagePreview) {
+
+  if (input.files) {
+    let filesAmount = input.files.length;
+    let html = "";
+    console.log({"files": input.files})
+    for (let i = 0; i < filesAmount; i++) {
+      let reader = new FileReader()
+
+      reader.onload = function (event) {
+
+        console.log({'file': event.target})
+
+        html += '<div><img src="' + event.target.result + '"/></div>';
+        $(placeToInsertImagePreview).html(html);
+      }
+      reader.readAsDataURL(input.files[i]);
+    }
+
+  }
+
+}

@@ -30,8 +30,9 @@ class Select extends Component
 
     public $required;
 
+    public $noPlaceholder;
 
-    public function __construct($name, $options, $id = null, $value = '', $label = '', $placeholder = null, $class = null, $required=null)
+    public function __construct($name, $options, $id = null, $value = '', $label = '', $placeholder = null, $class = null, $required=null, $noPlaceholder=false)
     {
         $this->name = $name;
         $this->id = $id;
@@ -39,6 +40,7 @@ class Select extends Component
         $this->placeholder = $placeholder;
         $this->label = $label;
         $this->class = $class;
+        $this->noPlaceholder = $noPlaceholder;
         if (gettype($options) == 'string') {
 
             $this->options = $this->convertToAssociativeArray($options);
