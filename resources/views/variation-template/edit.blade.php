@@ -53,9 +53,8 @@
 @section('js')
   <script>
     $(document).ready(function () {
-
       let tagify = new Tagify(document.getElementsByClassName('tags')[0], {
-        originalInputValueFormat: valuesArr => valuesArr.map(item => item.value).join(', ')
+        originalInputValueFormat: valuesArr => valuesArr.map(item => item.value).join(',')
       });
     })
   </script>
