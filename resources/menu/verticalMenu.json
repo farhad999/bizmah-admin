@@ -27,6 +27,22 @@
           "slug": "brands.create"
         }
       ]
+    },
+    {
+      "name": "Categories",
+      "slug": "categories",
+      "submenu": [
+        {
+          "url": "/categories",
+          "name": "Categories",
+          "slug": "categories.index"
+        },
+        {
+          "url": "/categories/create",
+          "name": "Create",
+          "slug": "categories.create"
+        }
+      ]
     }
   ]
 }
