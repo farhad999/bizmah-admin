@@ -43,6 +43,22 @@
           "slug": "categories.create"
         }
       ]
+    },
+    {
+      "name": "Variations",
+      "slug": "variations",
+      "submenu": [
+        {
+          "url": "/variation-templates",
+          "name": "Variations",
+          "slug": "variation-templates.index"
+        },
+        {
+          "url": "/variation-templates/create",
+          "name": "Create",
+          "slug": "variation-templates.create"
+        }
+      ]
     }
   ]
 }

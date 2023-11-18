@@ -1,4 +1,4 @@
-@props(['id' => 'id', 'name' => 'name', 'label' => 'label',
+@props(['id' => 'id', 'name' => 'name', 'label' => '',
  'placeholder' => '', 'required' => false, 'value' => '', 'class' => '',
   'labelClass' => ''])
 

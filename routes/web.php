@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\BrandController;
+use App\Http\Controllers\VariationTemplateController;
 use Illuminate\Support\Facades\Route;
 
 // authentication
@@ -23,6 +24,7 @@ Route::middleware(['auth'])->group(function () {
   Route::resource('/users', UserController::class);
   Route::resource('/brands', BrandController::class);
   Route::resource('/categories', App\Http\Controllers\CategoryController::class);
+  Route::resource('/variation-templates', VariationTemplateController::class);
 
 });
 
