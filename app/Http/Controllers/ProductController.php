@@ -254,6 +254,12 @@ class ProductController extends Controller
 
   }
 
+  function destroy($id){
+    $product = Product::findOrFail($id);
+    $product->delete();
+    return response()->json(['status'=>'success', 'message' => 'Product deleted successfully']);
+  }
+
   function getVariationTemplate()
   {
 

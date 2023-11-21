@@ -7,6 +7,9 @@
       <button data-href="{{route('products.show', $row->id)}}" class="dropdown-item view-modal-btn">View</button>
     </li>
     <li><a href="{{route('products.edit', $row->id)}}" class="dropdown-item">Edit</a></li>
+    <li>
+      <button data-href="{{route('products.destroy', $row->id)}}" class="dropdown-item delete-item-btn">Delete</button>
+    </li>
   </ul>
 </div>
 
