@@ -44,3 +44,30 @@
 }
 
 /* custom fontsize */
+
+/* Image Gallery */
+
+.image-gallery-item{
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  margin: 10px;
+  overflow: hidden;
+  border: 1px solid #eee;
+  position: relative;
+}
+
+.image-gallery-item img{
+  width: 100%;
+}
+
+.image-gallery-item .remove-btn{
+  position: absolute;
+  top: 5px;
+  right: 8px;
+}
+
+.image-gallery-item .remove-btn:hover{
+  cursor: pointer;
+  color: #f36389;
+}

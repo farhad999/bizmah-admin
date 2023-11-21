@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\ProductImage;
 use App\Models\VariationTemplate;
 use App\Services\FileService;
 use App\Models\Variation;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -39,7 +41,7 @@ class ProductController extends Controller
         ->editColumn('image', function ($row) {
           return "<img src='" . $row->image_url . "' class='table-thumb' />";
         })
-        ->addColumn('price', function ($row){
+        ->addColumn('price', function ($row) {
           $min = $row->variations->pluck('price')->min();
           $max = $row->variations->pluck('price')->max();
           return $min . ' - ' . $max;
@@ -254,10 +256,11 @@ class ProductController extends Controller
 
   }
 
-  function destroy($id){
+  function destroy($id)
+  {
     $product = Product::findOrFail($id);
     $product->delete();
-    return response()->json(['status'=>'success', 'message' => 'Product deleted successfully']);
+    return response()->json(['status' => 'success', 'message' => 'Product deleted successfully']);
   }
 
   function getVariationTemplate()
@@ -305,6 +308,61 @@ class ProductController extends Controller
     array_unshift($arrays, $firstArray); // Restore the arrays for the next iteration
 
     return $result;
+  }
+
+  function imageGallery($id)
+  {
+    $product = Product::findOrFail($id);
+
+    return view('product.partials.image-gallery', compact('product'));
+  }
+
+  function upload(Request $request, $id)
+  {
+    $product = Product::findOrFail($id);
+
+    $images = (new FileService())->uploadMulti($request, 'images');
+
+    if (!empty($images)) {
+      foreach ($images as $image) {
+        ProductImage::create([
+          'product_id' => $product->id,
+          'image' => $image,
+        ]);
+      }
+    }
+
+    return response()->json(['status' => 'success']);
+
+  }
+
+  function loadImages($id)
+  {
+
+    $images = ProductImage::where('product_id', $id)
+      ->get();
+
+    return view('product.partials.image-gallery-container', compact('images'));
+
+  }
+
+  function deleteGalleryImage($id)
+  {
+
+    try {
+
+      $imageId = \request()->input('image_id');
+
+      $image = ProductImage::findOrFail($imageId);
+
+      Storage::delete($image->image);
+
+      $image->delete();
+
+      return response(['status' => 'success', 'message' => 'Image Successfully removed']);
+    } catch (\Exception $exception) {
+      return response(['status' => 'error', 'message' => $exception->getMessage()]);
+    }
   }
 
 }

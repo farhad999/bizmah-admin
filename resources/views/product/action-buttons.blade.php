@@ -10,6 +10,9 @@
     <li>
       <button data-href="{{route('products.destroy', $row->id)}}" class="dropdown-item delete-item-btn">Delete</button>
     </li>
+    <li>
+      <button data-href="{{route('products.image-gallery', $row->id)}}" class="dropdown-item image-gallery-btn">Image Gallery</button>
+    </li>
   </ul>
 </div>
 

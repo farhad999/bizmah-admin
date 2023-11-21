@@ -31,6 +31,7 @@
   </x-content>
 
   <x-modal.fade id="view_modal"></x-modal.fade>
+  <x-modal.fade id="image_gallery"></x-modal.fade>
 
 @endsection
 
@@ -59,6 +60,79 @@
         $(this).modal('show');
       });
     })
+
+    $(document).on('click', '.image-gallery-btn', function () {
+      let url = $(this).data('href');
+      $('#image_gallery').load(url, function () {
+        $(this).modal('show');
+        loadImages()
+      });
+    })
+
+    /*$('#image_gallery').on('shown.bs.modal', function (e) {
+      loadImages();
+    })*/
+
+    $(document).on('submit', 'form#image_gallery_form', function (e) {
+
+      e.preventDefault();
+      let data = new FormData(this);
+
+      $.ajax({
+        method: 'POST',
+        url: $(this).attr('action'),
+        dataType: 'json',
+        processData: false,
+        contentType: false,
+        data: data,
+        success: function (result) {
+          $('#upload_gallery').val("");
+          toastr.success('Image Uploaded');
+          loadImages();
+          //clear file preview
+          $('.image-preview-gallery>div').remove();
+        },
+        error: function (error) {
+          console.log(error);
+        }
+      });
+
+    })
+
+    function loadImages() {
+      $.ajax({
+        url: '/products/' + $('.product-id').val() + '/load_images',
+        type: 'get',
+        data: {drop: true},
+        success: function (html) {
+          $('#image_gallery_container').html(html);
+        }
+      });
+    }
+
+    $(document).on('click', '.remove-btn', function () {
+
+      let galleryItem = $(this).closest('.wrapper-item');
+
+      $.ajax({
+        method: 'DELETE',
+        url: '/products/' + $('.product-id').val() + '/delete_gallery_image',
+        dataType: 'json',
+        data: {image_id: $(this).next().val()},
+        success: function (res) {
+          let {status, message} = res;
+          if (status === 'success') {
+            toastr.success('Image Removed');
+            //remove this gallery item
+            galleryItem.remove();
+
+          } else {
+            toastr.success('message');
+          }
+        },
+      });
+
+    });
 
   </script>
 @endsection

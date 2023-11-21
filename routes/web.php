@@ -29,6 +29,17 @@ Route::middleware(['auth'])->group(function () {
   Route::get('/get-sub-categories', [CategoryController::class, 'getSubCategories']);
 
   Route::resource('/variation-templates', VariationTemplateController::class);
+
+  Route::get('/products/{id}/image_gallery', [ProductController::class, 'imageGallery'])
+    ->name('products.image-gallery');
+
+  Route::post('/products/{id}/upload', [ProductController::class, 'upload'])
+    ->name('products.upload');
+
+  Route::post('/products/{id}/image_gallery', 'ProductController@uploadGallery');
+  Route::delete('/products/{id}/delete_gallery_image', [ProductController::class, 'deleteGalleryImage']);
+  Route::get('/products/{id}/load_images', [ProductController::class, 'loadImages']);
+
   Route::resource('/products', ProductController::class);
   Route::get('/get-variation-template', [ProductController::class, 'getVariationTemplate']);
   Route::post('/create-variation', [ProductController::class, 'createVariation']);
