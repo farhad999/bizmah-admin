@@ -23,7 +23,9 @@ Route::middleware(['auth'])->group(function () {
   //user
   Route::resource('/users', UserController::class);
   Route::resource('/brands', BrandController::class);
-  Route::resource('/categories', App\Http\Controllers\CategoryController::class);
+  Route::resource('/categories', CategoryController::class);
+  Route::get('/get-sub-categories', [CategoryController::class, 'getSubCategories']);
+
   Route::resource('/variation-templates', VariationTemplateController::class);
 
 });

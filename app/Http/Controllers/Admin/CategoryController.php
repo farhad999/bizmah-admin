@@ -149,4 +149,17 @@ class CategoryController extends Controller
     return response()->json(['status' => 'success', 'message' => 'Category deleted successfully']);
   }
 
+  function getSubCategories()
+  {
+    $id = \request()->input('id');
+
+    $categories = Category::where('parent_id', $id)
+      ->whereNotNull('parent_id')
+      ->select('id', 'name')
+      ->pluck('name', 'id');
+
+    return view("category.sub-categories", compact('categories'));
+
+  }
+
 }
