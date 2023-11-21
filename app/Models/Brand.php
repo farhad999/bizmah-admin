@@ -36,4 +36,9 @@ class Brand extends Model
     return Storage::url($this->image);
   }
 
+  static function getForDropdown()
+  {
+    return self::where('status', 1)->pluck('name', 'id');
+  }
+
 }
