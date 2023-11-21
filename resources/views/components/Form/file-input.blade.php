@@ -1,18 +1,22 @@
 @props(['accept' => 'image/*', 'name', 'multiple' =>false, 'required' => false, 'label', 'images' => []])
-<div>
-  <label class="form-label">{{$label}}
-    @if($required)
-      <span class="text-danger">*</span>
-    @endif
-  </label>
-  <input
-    type="file"
-    class="form-control image-input"
-    accept="{{$accept}}"
-    name="{{$name}}"
-    @if($required) required="required" @endif
-    @if($multiple) multiple="multiple" @endif
-  />
+<div class="image-box mb-3">
+  @if(!empty($label))
+    <label class="form-label">{{$label}}
+      @if($required)
+        <span class="text-danger">*</span>
+      @endif
+    </label>
+  @endif
+  <div>
+    <input
+      type="file"
+      class="form-control image-input"
+      accept="{{$accept}}"
+      name="{{$name}}"
+      @if($required) required="required" @endif
+      @if($multiple) multiple="multiple" @endif
+    />
+  </div>
 
   @php
     if(!empty($images) && gettype($images) == 'string')
