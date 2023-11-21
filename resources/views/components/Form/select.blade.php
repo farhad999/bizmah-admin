@@ -12,7 +12,7 @@
     <pre class="text-danger">Data Error</pre>
   @else
 
-    <select class="form-control" @class="{{$class}}" id="{{$id ?? $name}}" name="{{$name}}" {{$attributes}}
+    <select class="form-control {{$class}}" id="{{$id ?? $name}}" name="{{$name}}" {{$attributes}}
     @if(!empty($required))
       required="required"
     @endif
