@@ -11,17 +11,27 @@ class FileService
 
   public function upload($request, $key = 'files')
   {
-    return $this->handleUpload($request, 'single', $key);
+    return $this->processUpload($request, 'single', $key);
+  }
+
+  //it will upload file directly
+  //no need to retrieve it from request object
+  //file will be passed
+  public function fileUpload($file)
+  {
+    if(empty($file)){
+      return null;
+    }
+    return $this->handleUpload($file);
   }
 
   public function uploadMulti($request, $key = 'files')
   {
-    return $this->handleUpload($request, 'multi', $key);
+    return $this->processUpload($request, 'multi', $key);
   }
 
-  private function handleUpload($request, $mode, $key = 'files')
+  private function processUpload($request, $mode, $key = 'files')
   {
-
     $uploads = [];
 
     $files = [];
@@ -35,21 +45,8 @@ class FileService
       }
 
       foreach ($files as $file) {
-
-        $size = $file->getSize();
-        $filename = Str::random(30);
-        $mimeType = $file->getClientMimeType();
-        $extension = $file->getClientOriginalExtension();
-
-        $disk = 'public';
-        $filename = $filename . '.' . $extension;
-        $filePath = '/uploads/' . $filename;
-        Storage::disk($disk)->put($filename, file_get_contents($file));
-
-        $uploads[] = $filename;
-
+        $uploads[] = $this->handleUpload($file);
       }
-
     }
 
     if (empty($files)) {
@@ -61,6 +58,24 @@ class FileService
     }
 
     return $uploads;
+
   }
+
+  private function handleUpload($file)
+  {
+
+    $size = $file->getSize();
+    $filename = Str::random(30);
+    $mimeType = $file->getClientMimeType();
+    $extension = $file->getClientOriginalExtension();
+
+    $disk = 'public';
+    $filename = $filename . '.' . $extension;
+    Storage::disk($disk)->put($filename, file_get_contents($file));
+
+    return $filename;
+
+  }
+
 
 }
