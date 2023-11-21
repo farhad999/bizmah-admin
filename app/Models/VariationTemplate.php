@@ -7,8 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class VariationTemplate extends Model
 {
-    use HasFactory;
+  use HasFactory;
 
-    protected $guarded = ['id'];
+  protected $guarded = ['id'];
+
+  static function getFordropdown()
+  {
+    return self::where('status', 1)
+      ->pluck('name', 'id');
+  }
 
 }
