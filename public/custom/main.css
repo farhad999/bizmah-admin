@@ -1,5 +1,6 @@
 .image-preview-gallery {
   display: flex;
+  flex-wrap: wrap;
   border: 1px dot-dash #eee;
   margin-top: 5px;
 }
@@ -29,3 +30,17 @@
   width: 80px;
   height: 80px;
 }
+
+/* Product View */
+
+.product-view-thumb{
+  width: 100%;
+  padding: 10px;
+  overflow: hidden;
+  border: 1px solid #ddd;
+}
+.product-view-thumb img{
+  width: 100%;
+}
+
+/* custom fontsize */

@@ -59,6 +59,22 @@
           "slug": "variation-templates.create"
         }
       ]
+    },
+    {
+      "name": "Products",
+      "slug": "products",
+      "submenu": [
+        {
+          "url": "/products",
+          "name": "Products",
+          "slug": "products.index"
+        },
+        {
+          "url": "/products/create",
+          "name": "Create",
+          "slug": "products.create"
+        }
+      ]
     }
   ]
 }

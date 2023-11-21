@@ -1,10 +1,12 @@
 <?php
 
-use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\AuthController;
-use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\BrandController;
-use App\Http\Controllers\VariationTemplateController;
+use App\Http\Controllers\Admin\HomeController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\VariationTemplateController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\Admin\CategoryController;
 use Illuminate\Support\Facades\Route;
 
 // authentication
@@ -27,6 +29,9 @@ Route::middleware(['auth'])->group(function () {
   Route::get('/get-sub-categories', [CategoryController::class, 'getSubCategories']);
 
   Route::resource('/variation-templates', VariationTemplateController::class);
+  Route::resource('/products', ProductController::class);
+  Route::get('/get-variation-template', [ProductController::class, 'getVariationTemplate']);
+  Route::post('/create-variation', [ProductController::class, 'createVariation']);
 
 });
 

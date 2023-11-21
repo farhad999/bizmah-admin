@@ -74,10 +74,12 @@ $(document).ready(function () {
     ],
   });
 
-  //image
-  $('.image-input').on('change', function () {
-    imagePreview(this, 'div.image-preview-gallery');
-  });
+  $.ajaxSetup({
+    headers: {
+      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+  })
+
 
 })
 
@@ -103,7 +105,10 @@ function addRules(form) {
 
 //File Upload
 
-function imagePreview(input, placeToInsertImagePreview) {
+function imagePreview(input) {
+
+  let box = $(input).closest('.image-box');
+  let gallery = $(box).find('.image-preview-gallery');
 
   if (input.files) {
     let filesAmount = input.files.length;
@@ -117,7 +122,7 @@ function imagePreview(input, placeToInsertImagePreview) {
         console.log({'file': event.target})
 
         html += '<div><img src="' + event.target.result + '"/></div>';
-        $(placeToInsertImagePreview).html(html);
+        $(gallery).html(html);
       }
       reader.readAsDataURL(input.files[i]);
     }
@@ -158,4 +163,9 @@ $(document).on('click', '.delete-item-btn', function () {
 
     }
   })
+});
+
+//image
+$(document).on('change', '.image-input', function () {
+  imagePreview(this);
 });

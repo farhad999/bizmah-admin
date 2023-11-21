@@ -38,8 +38,16 @@ class Category extends Model
     return Storage::url($this->image);
   }
 
-  function parent(){
+  function parent()
+  {
     return $this->belongsTo(Category::class, 'parent_id');
+  }
+
+  static function getForDropdown($parent = null)
+  {
+    return self::where('parent_id', $parent)
+      ->where('status', 1)
+      ->pluck('name', 'id');
   }
 
 }
