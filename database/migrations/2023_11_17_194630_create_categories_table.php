@@ -16,7 +16,7 @@ return new class extends Migration {
       $table->string('slug')->unique()->index();
       $table->unsignedBigInteger('parent_id')->nullable();
       $table->string('image');
-      $table->text('description');
+      $table->text('description')->nullable();
       $table->boolean('status')->default(1);
       $table->boolean('visibility')->default(1);
       $table->integer('level')->default(0);

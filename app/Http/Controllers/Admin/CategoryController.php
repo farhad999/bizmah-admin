@@ -66,7 +66,7 @@ class CategoryController extends Controller
       'name' => 'required',
       'status' => 'required',
       'visibility' => 'required',
-      'description' => 'string',
+      'description' => 'nullable|string',
       'parent_id' => 'nullable|numeric',
       'image' => 'required|mimes:image:jpeg,png,jpg|max:2048'
     ]);
@@ -77,11 +77,11 @@ class CategoryController extends Controller
 
     $parentId = $request->input('parent_id');
 
-    $parent = Category::find($parentId);
+    //$parent = Category::find($parentId);
 
     $data = $validator->safe()->except('image');
 
-    $data['level'] = $parent->level + 1;
+    //$data['level'] = $parent->level + 1;
 
     $data['image'] = (new FileService())->upload($request, 'image');
 
@@ -114,7 +114,7 @@ class CategoryController extends Controller
       'name' => 'required',
       'status' => 'required',
       'visibility' => 'required',
-      'description' => 'string',
+      'description' => 'nullable|string',
       'image' => 'mimes:image:jpeg,png,jpg|max:2048'
     ]);
 
