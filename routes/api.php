@@ -16,10 +16,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+/*Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
-});
 });*/
 
+Route::get('/products/{slug}', [ProductController::class, 'show']);
+Route::get('/products', [ProductController::class, 'index']);
 Route::get('/categories', [ProductController::class, 'categories']);
 Route::get('/new-arrivals', [HomeController::class, 'latestProducts']);
+Route::get('/product-filters', [ProductController::class, 'getFilters']);

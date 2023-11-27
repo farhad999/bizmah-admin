@@ -25,6 +25,10 @@ class Product extends Model
     ];
   }
 
+  static function findBySlug($slug){
+    return self::where('slug', $slug)->first();
+  }
+
   function getImageUrlAttribute()
   {
     if (!$this->image) {
