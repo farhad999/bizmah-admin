@@ -11,6 +11,10 @@ class Variation extends Model
 
   protected $guarded = ['id'];
   protected $appends = ['image_url'];
+  protected $casts = [
+    'price' => 'double',
+    'old_price' => 'double'
+  ];
 
   public function getImageUrlAttribute()
   {
