@@ -49,6 +49,36 @@ class ProductController extends Controller
       $query->where('brand_id', $brandId);
     }
 
+    //variation filtering
+
+    $templates = $request->input('variation_templates', []);
+    $values = $request->input('variation_values', []);
+
+    /*if (!empty($templates)) {
+
+      $templates = explode(',', $templates);
+
+      $query->where(function ($query) use ($templates) {
+        foreach ($templates as $template) {
+          $query->orWhere('products.template', 'Like', "%$template%");
+        }
+      });
+    }*/
+
+    if (!empty($values)) {
+      $values = explode(',', $values);
+
+      $query->where(function ($query) use ($values) {
+        foreach ($values as $value) {
+          $query->orWhere('variations.name', $value)
+            ->orWhere('variations.name', 'LIKE', $value.'|%')
+            ->orWhere('variations.name', 'LIKE', '%|'.$value.'|%')
+            ->orWhere('variations.name', 'LIKE', '%|'.$value);
+        }
+      });
+
+    }
+
     $query->groupBy('products.id');
 
     if (!empty($min)) {
@@ -119,13 +149,13 @@ class ProductController extends Controller
   {
     $filters = VariationTemplate::select('id', 'name', 'values')
       ->get()
-    ->map(function ($filter) {
-      return [
-        'id' => $filter->id,
-        'name' => $filter->name,
-        'values' => collect(explode(',',$filter->values))->sort()->values(),
-      ];
-    });
+      ->map(function ($filter) {
+        return [
+          'id' => $filter->id,
+          'name' => $filter->name,
+          'values' => collect(explode(',', $filter->values))->sort()->values(),
+        ];
+      });
 
     return response()->json($filters);
   }
