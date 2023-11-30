@@ -33,6 +33,8 @@ class ProductController extends Controller
     $min = $request->input('min', 0);
     $max = $request->input('max', null);
 
+    $q = $request->input('q', '');
+
     if (!empty($categoryId || $categorySlug)) {
       $query->where('category_id', $categoryId);
     }
@@ -71,12 +73,16 @@ class ProductController extends Controller
       $query->where(function ($query) use ($values) {
         foreach ($values as $value) {
           $query->orWhere('variations.name', $value)
-            ->orWhere('variations.name', 'LIKE', $value.'|%')
-            ->orWhere('variations.name', 'LIKE', '%|'.$value.'|%')
-            ->orWhere('variations.name', 'LIKE', '%|'.$value);
+            ->orWhere('variations.name', 'LIKE', $value . '|%')
+            ->orWhere('variations.name', 'LIKE', '%|' . $value . '|%')
+            ->orWhere('variations.name', 'LIKE', '%|' . $value);
         }
       });
 
+    }
+
+    if (!empty($q)) {
+      $query->where('products.name', 'LIKE', '%' . $q . '%');
     }
 
     $query->groupBy('products.id');
@@ -158,6 +164,24 @@ class ProductController extends Controller
       });
 
     return response()->json($filters);
+  }
+
+
+  function cartProducts()
+  {
+    $ids = request()->input('ids');
+
+    $variationIds = explode(',', $ids);
+
+    $products = Product::with('variations')
+      ->whereIn('id', $variationIds)
+      ->select('products.id', 'products.name', 'products.slug', 'products.image', 'type', 'sku',
+        'products.template',
+      )
+      ->get();
+
+    return response()->json($products);
+
   }
 
 }

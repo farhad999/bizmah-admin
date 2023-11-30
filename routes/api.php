@@ -24,4 +24,4 @@ Route::get('/products/{slug}', [ProductController::class, 'show']);
 Route::get('/products', [ProductController::class, 'index']);
 Route::get('/categories', [ProductController::class, 'categories']);
 Route::get('/new-arrivals', [HomeController::class, 'latestProducts']);
-Route::get('/product-filters', [ProductController::class, 'getFilters']);
+Route::get('/cart-products', [ProductController::class, 'cartProducts']);
