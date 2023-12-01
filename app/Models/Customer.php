@@ -10,5 +10,11 @@ use Laravel\Sanctum\HasApiTokens;
 
 class Customer extends Authenticatable
 {
-    use HasFactory, HasApiTokens, SoftDeletes;
+  use HasFactory, HasApiTokens, SoftDeletes;
+
+  function addresses()
+  {
+    return $this->hasMany(Address::class, 'customer_id');
+  }
+
 }

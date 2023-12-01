@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AddressController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\HomeController;
 use App\Http\Controllers\Api\ProductController;
@@ -33,4 +34,13 @@ Route::post('/auth/login', [AuthController::class, 'login']);
 
 Route::middleware('auth:sanctum')->group(function () {
   Route::get('/auth/user', [AuthController::class, 'getUser']);
+
+  //address
+
+  Route::get('get-cities', [AddressController::class, 'getCities']);
+  Route::get('get-zones/{city-id}', [AddressController::class, 'getZones']);
+
+  Route::resource('addresses', AddressController::class)
+    ->only(['store', 'destroy']);
+
 });

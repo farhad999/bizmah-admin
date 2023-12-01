@@ -90,10 +90,8 @@ class AuthController extends ApiController
 
   function getUser()
   {
-
-    //return response('dd', 403);
-
     $user = \auth()->user();
+    $user->load('addresses');
     return response($user, 200);
   }
 
