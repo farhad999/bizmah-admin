@@ -47,11 +47,10 @@ class ApiController extends Controller
 
     function respondWithError($message=null, $status_code = 500)
     {
-        response()->json([
+        return response()->json([
             'status' => 'Error',
             'message' => $message ? $message : 'Something went wrong!'
         ], $status_code)->send();
-        exit();
     }
 
     public function handleException($e)
