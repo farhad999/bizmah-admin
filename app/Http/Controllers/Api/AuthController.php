@@ -151,9 +151,7 @@ class AuthController extends ApiController
 
   function logout()
   {
-
-    auth('api-customer')->user()->token()->delete();
-
+    auth()->user()->token()->delete();
     return response(['status' => "success", 'message' => 'Log out successful'], 200);
   }
 

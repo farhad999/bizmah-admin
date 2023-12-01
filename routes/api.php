@@ -31,6 +31,7 @@ Route::get('/cart-products', [ProductController::class, 'cartProducts']);
 //customer authentication
 Route::post('/auth/get-code', [AuthController::class, 'getCode']);
 Route::post('/auth/login', [AuthController::class, 'login']);
+Route::post('/auth/logout', [AuthController::class, 'logout']);
 
 Route::middleware('auth:sanctum')->group(function () {
   Route::get('/auth/user', [AuthController::class, 'getUser']);
