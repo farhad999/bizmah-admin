@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AddressController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\CartController;
 use App\Http\Controllers\Api\HomeController;
 use App\Http\Controllers\Api\ProductController;
 use Illuminate\Http\Request;
@@ -43,5 +44,11 @@ Route::middleware('auth:sanctum')->group(function () {
 
   Route::resource('addresses', AddressController::class)
     ->only(['store', 'destroy']);
+
+  Route::post('/remove-cart-item', [CartController::class, 'destroy']);
+  Route::post('/update-cart-quantity', [CartController::class, 'updateQty']);
+  //cart
+  Route::resource('carts', CartController::class)
+    ->only(['index', 'store']);
 
 });
