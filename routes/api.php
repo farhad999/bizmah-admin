@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\HomeController;
 use App\Http\Controllers\Api\ProductController;
 use Illuminate\Http\Request;
@@ -25,3 +26,11 @@ Route::get('/products', [ProductController::class, 'index']);
 Route::get('/categories', [ProductController::class, 'categories']);
 Route::get('/new-arrivals', [HomeController::class, 'latestProducts']);
 Route::get('/cart-products', [ProductController::class, 'cartProducts']);
+
+//customer authentication
+Route::post('/auth/get-code', [AuthController::class, 'getCode']);
+Route::post('/auth/login', [AuthController::class, 'login']);
+
+Route::middleware('auth:sanctum')->group(function () {
+  Route::get('/auth/user', [AuthController::class, 'getUser']);
+});
