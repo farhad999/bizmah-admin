@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\VariationTemplateController;
+use App\Http\Controllers\CarouselController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\Admin\CategoryController;
@@ -47,6 +48,22 @@ Route::middleware(['auth'])->group(function () {
 
   //customer
   Route::resource('/customers', CustomerController::class);
+
+  //settings
+
+  Route::post('/carousels/{id}/add-slide', [CarouselController::class, 'addSlide'])
+    ->name('carousels.add-slide');
+
+  Route::post('/carousels/{id}/reorder', [CarouselController::class, 'reorder'])
+    ->name('carousels.reorder-slide');
+
+  Route::delete('/carousel-slide/{id}', [CarouselController::class, 'removeSlide'])
+    ->name("carousels.delete-slide");
+
+  Route::post('/carousels/{id}/make-active', [CarouselController::class, 'makeActive'])
+    ->name('carousels.make-active');
+
+  Route::resource('/carousels', CarouselController::class);
 
 });
 

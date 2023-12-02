@@ -87,6 +87,18 @@
           "slug": "products.create"
         }
       ]
+    },
+    {
+      "name": "Settings",
+      "slug": "settings",
+      "icon": "menu-icon tf-icons ti ti-settings",
+      "submenu": [
+        {
+          "url": "/carousels",
+          "name": "Carousels",
+          "slug": "carousels.index"
+        }
+      ]
     }
   ]
 }
