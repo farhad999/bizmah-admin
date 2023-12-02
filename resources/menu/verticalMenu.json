@@ -13,6 +13,18 @@
       "slug": "users.index"
     },
     {
+      "name": "Customers",
+      "icon": "menu-icon tf-icons ti ti-user",
+      "slug": "customers",
+      "submenu": [
+        {
+          "url": "/customers",
+          "name": "Customers",
+          "slug": "customers.index"
+        }
+      ]
+    },
+    {
       "name": "Brands",
       "slug": "brands",
       "submenu": [

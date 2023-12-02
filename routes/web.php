@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\VariationTemplateController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\Admin\CategoryController;
 use Illuminate\Support\Facades\Route;
@@ -43,6 +44,9 @@ Route::middleware(['auth'])->group(function () {
   Route::resource('/products', ProductController::class);
   Route::get('/get-variation-template', [ProductController::class, 'getVariationTemplate']);
   Route::post('/create-variation', [ProductController::class, 'createVariation']);
+
+  //customer
+  Route::resource('/customers', CustomerController::class);
 
 });
 
