@@ -9,6 +9,7 @@ use App\Http\Controllers\CarouselController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\SettingController;
 use Illuminate\Support\Facades\Route;
 
 // authentication
@@ -64,6 +65,14 @@ Route::middleware(['auth'])->group(function () {
     ->name('carousels.make-active');
 
   Route::resource('/carousels', CarouselController::class);
+
+  //General Settings
+
+  Route::get('/settings', [SettingController::class, 'getSettings'])
+  ->name('settings.index');
+
+  Route::post("/settings", [SettingController::class, 'updateSettings'])
+  ->name('settings.update');
 
 });
 
