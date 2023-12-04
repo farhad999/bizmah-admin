@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -30,6 +31,13 @@ class HomeController extends Controller
 
     return response()->json($products);
 
+  }
+
+  function getSettings(){
+    $settings = Setting::where('group', 'general')
+      ->pluck('value', 'name');
+
+    return response()->json($settings);
   }
 
 }
