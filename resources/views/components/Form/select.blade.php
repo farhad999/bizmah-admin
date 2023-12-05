@@ -15,17 +15,17 @@
     <select class="form-control {{$class}}" id="{{$id ?? $name}}" name="{{$name}}" {{$attributes}}
     @if(!empty($required))
       required="required"
-    @endif
+      @endif
     >
-    @if(empty($noPlaceholder))
-      <option
-        value="">{{ ($placeholder ? '--'. $placeholder.'--' : !empty($label)) ? '--'. __($label). '--' : '--Select One--'}}</option>
-    @endif
+      @if(empty($noPlaceholder))
+        <option
+          value="">{{ ($placeholder ? '--'. $placeholder.'--' : !empty($label)) ? '--'. __($label). '--' : '--Select One--'}}</option>
+      @endif
 
-    @foreach($options as $key=>$option)
-      <option value="{{$key}}"
-              @if(gettype($value) == 'array' ? in_array($key, $value) : strval($key) == strval($value)) selected="selected" @endif>{{$option}}</option>
-        @endforeach
+      @foreach($options as $key=>$option)
+        <option value="{{$key}}"
+                @if(gettype($value) == 'array' ? in_array($key, $value) : strval($key) == strval($value)) selected="selected" @endif>{{$option}}</option>
+      @endforeach
     </select>
 
   @endif

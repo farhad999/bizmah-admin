@@ -1,10 +1,53 @@
 @extends('layouts.layoutMaster')
 
+@section('title', 'Orders')
+
+@section('vendor-style')
+  <link rel="stylesheet" href="{{asset(mix('assets/vendor/libs/bootstrap-daterangepicker/bootstrap-daterangepicker.css'))}}">
+@endsection
+
 @section('content')
+
+  <!--Filters -->
+
+  <div class="card mb-2">
+    <div class="card-header">
+      <h4 class="card-title">Filters</h4>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-sm-4">
+          <x-form.input
+            label="Date Range"
+            id="date_range"
+          />
+        </div>
+        <div class="col-sm-4">
+          <x-form.select
+            name="status"
+            label="Order Status"
+            placeholder="All"
+            :options="$orderStatuses"
+            id="status"
+          />
+        </div>
+        <div class="col-sm-4">
+          <x-form.select
+            name="shipping_status"
+            label="Shipping Status"
+            placeholder="All"
+            :options="$shippingStatuses"
+            id="shipping_status"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+
   <x-content title="Orders">
 
     <x-slot name="buttons">
-      <a href="{{route("orders.create")}}">Create</a>
+      <a href="{{route("orders.create")}}" class="btn btn-primary">Create</a>
     </x-slot>
 
     <div>
@@ -29,11 +72,41 @@
 
 @endsection
 
+@section('vendor-script')
+  <script src="{{asset(mix('assets/vendor/libs/moment/moment.js'))}}"></script>
+  <script src="{{asset(mix('assets/vendor/libs/bootstrap-daterangepicker/bootstrap-daterangepicker.js'))}}" ></script>
+@endsection
+
 @section('js')
   <script>
     $(document).ready(function () {
+
+      $('#date_range').daterangepicker({
+        locale: {
+          format: 'DD/MM/YYYY',
+        },
+        ranges: {
+          'Today': [moment(), moment()],
+          'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+          'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+          'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+          'This Month': [moment().startOf('month'), moment().endOf('month')],
+        },
+        //set today value
+        startDate: moment(),
+        endDate: moment()
+      });
+
       let table = $('#datatable').DataTable({
-        ajax: window.location.pathname,
+        responsive: true,
+        ajax: {
+          url: window.location.pathname,
+          data: function (d) {
+            d.status = $('#status').val();
+            d.shipping_status = $('#shipping_status').val();
+            d.date_range = $('#date_range').val();
+          }
+        },
         columns: [
           {data: 'action'},
           {data: 'order_no'},
@@ -70,7 +143,7 @@
         updateStatus('Do you want to cancel this order?', 'cancelled', 'warning')
       })
 
-      function updateStatus(title, type, icon = 'question'){
+      function updateStatus(title, type, icon = 'question') {
 
         let order_id = $('#order_id').val();
 
@@ -130,6 +203,12 @@
           })
         }
 
+      })
+
+      //Filtering
+
+      $('#status, #shipping_status, #date_range').on('change', function () {
+        table.ajax.reload();
       })
 
     })

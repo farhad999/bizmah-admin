@@ -4,13 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 
 use App\Http\Controllers\Controller;
-use App\Http\Middleware\RedirectIfAuthenticated;
-use App\Models\Address;
 use App\Models\City;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\Setting;
 use App\Models\Variation;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -19,7 +18,8 @@ class OrderController extends Controller
 
   private $orderStatuses = [
     'pending' => 'Pending',
-    'confirmed' => 'Confirmed'
+    'confirmed' => 'Confirmed',
+    'cancelled' => 'Cancelled',
   ];
 
   private $shippingStatuses = [
@@ -33,12 +33,38 @@ class OrderController extends Controller
     'outside_dhaka' => 'Outside Dhaka'
   ];
 
-  function index()
+  function index(Request $request)
   {
 
     if (request()->ajax()) {
 
       $query = Order::orderBy('date', 'desc');
+
+      //status
+      $status = $request->input('status');
+      $shippingStatus = $request->input('shipping_status');
+
+      if (!empty($status)) {
+        $query->where('status', $status);
+      }
+
+      if (!empty($shippingStatus)) {
+        $query->where('shipping_status', $shippingStatus);
+      }
+
+      //date range
+      $dateRange = $request->input('date_range');
+
+      if (!empty($dateRange)) {
+        $dateRange = explode(' - ', $dateRange);
+        $startDate = Carbon::createFromFormat('d/m/Y', $dateRange[0])->format('Y-m-d');
+        $endDate = Carbon::createFromFormat('d/m/Y', $dateRange[1])->format('Y-m-d');
+
+        $query->whereDate('date', '>=', $startDate)
+          ->whereDate('date', '<=', $endDate);
+
+      }
+
 
       return datatables()
         ->of($query)
@@ -58,7 +84,10 @@ class OrderController extends Controller
         ->make(true);
     }
 
-    return view('order.index');
+    return view('order.index', [
+      'shippingStatuses' => $this->shippingStatuses,
+      'orderStatuses' => $this->orderStatuses,
+    ]);
   }
 
   function create()
@@ -96,8 +125,6 @@ class OrderController extends Controller
       'shipping_charge', 'customer_id',
       'status', 'date',
     ]);
-
-    $items = $request->input('items');
 
     $items = $request->input('items');
 
