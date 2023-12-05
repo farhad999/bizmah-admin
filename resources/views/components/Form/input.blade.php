@@ -1,4 +1,4 @@
-@props(['id' => 'id', 'name' => 'name', 'label' => '',
+@props(['id' => '', 'name' => 'name', 'label' => '',
  'placeholder' => '', 'required' => false, 'value' => '', 'class' => '',
   'labelClass' => ''])
 
@@ -10,12 +10,12 @@
       @endif
     </label>
   @endif
-  <input name="{{$name}}"
-         placeholder="{{$placeholder ? __($placeholder):  __($label)}}"
-         @class(["$class form-control"]) {{$attributes}}
-         value="{{old($name) ?? ($value != null ? $value : '')}}"
-         @if(!empty($required))
-           required="required"
-    @endif
+  <input
+    name="{{$name}}"
+    placeholder="{{$placeholder ? __($placeholder):  __($label)}}"
+    @class(["$class form-control"]) {{$attributes}}
+    value="{{old($name) ?? ($value != null ? $value : '')}}"
+    @if(!empty($required))required="required" @endif
+    @if(!empty($id)) id="{{$id}}" @endif
   >
 </div>
