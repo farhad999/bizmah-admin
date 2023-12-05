@@ -89,6 +89,17 @@
       ]
     },
     {
+      "name": "Manage Orders",
+      "slug": "orders",
+      "submenu": [
+        {
+          "url": "/orders",
+          "name": "Orders",
+          "slug": "orders.index"
+        }
+      ]
+    },
+    {
       "name": "Settings",
       "slug": "settings",
       "icon": "menu-icon tf-icons ti ti-settings",

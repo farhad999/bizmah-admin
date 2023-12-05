@@ -7,10 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class City extends Model
 {
-    use HasFactory;
+  use HasFactory;
 
-    function zones(){
-        return $this->hasMany(Zone::class, 'city_id');
-    }
+  static function getForDropdown()
+  {
+    return static::orderBy('name')
+      ->pluck('name', 'name');
+  }
+
+  function zones()
+  {
+    return $this->hasMany(Zone::class, 'city_id');
+  }
 
 }

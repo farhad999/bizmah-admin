@@ -365,4 +365,16 @@ class ProductController extends Controller
     }
   }
 
+  function search(){
+    $q = \request()->input('q');
+    $products = Product::where('name', 'like', '%'.$q.'%')->get();
+    return response()->json($products);
+  }
+
+  function getVariation(){
+    $id = \request()->input('id');
+    $variation = Variation::findOrFail($id);
+    return response()->json($variation);
+  }
+
 }

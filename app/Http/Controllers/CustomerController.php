@@ -50,4 +50,20 @@ class CustomerController extends Controller
 
     }
 
+    function search(){
+      $q = \request()->input('q');
+      $customers = Customer::where('name', 'like', "%$q%")
+        ->orWhere('mobile', 'like', "%$q%")
+        ->get();
+
+      return response()->json($customers);
+    }
+
+    function getCustomerDetails(){
+      $id = \request()->input('id');
+      $customer = Customer::find($id);
+
+      return response()->json($customer);
+    }
+
 }
