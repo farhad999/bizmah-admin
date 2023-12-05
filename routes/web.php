@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\VariationTemplateController;
 use App\Http\Controllers\CarouselController;
+use App\Http\Controllers\FeaturedCategoryController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SettingController;
@@ -75,6 +76,14 @@ Route::middleware(['auth'])->group(function () {
     ->name('carousels.make-active');
 
   Route::resource('/carousels', CarouselController::class);
+
+  Route::post('/featured-categories/{id}/add', [FeaturedCategoryController::class, 'add']);
+
+  Route::post('/featured-categories/update-order', [FeaturedCategoryController::class, 'updateOrder'])
+    ->name('featured-categories.update-order');
+
+  Route::resource('/featured-categories', FeaturedCategoryController::class)
+    ->only(['index', 'destroy']);
 
   //General Settings
 

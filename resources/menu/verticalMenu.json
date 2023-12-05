@@ -101,13 +101,23 @@
     },
     {
       "name": "Settings",
-      "slug": "settings",
+      "slug": ["settings", "carousels", "featured-categories"],
       "icon": "menu-icon tf-icons ti ti-settings",
       "submenu": [
+        {
+          "url": "/settings",
+          "name": "General Settings",
+          "slug": "settings.index"
+        },
         {
           "url": "/carousels",
           "name": "Carousels",
           "slug": "carousels.index"
+        },
+        {
+          "url": "/featured-categories",
+          "name": "Featured Categories",
+          "slug": "featured-categories.index"
         }
       ]
     }
