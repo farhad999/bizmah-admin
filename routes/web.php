@@ -61,6 +61,10 @@ Route::middleware(['auth'])->group(function () {
   Route::post('/orders/{id}/update-shipping-status', [OrderController::class, 'updateShippingStatus']);
   Route::resource('/orders', OrderController::class);
 
+  Route::get('{type}-orders', [OrderController::class, 'index'])
+    ->where('type', 'confirmed|pending|cancelled')
+    ->name('order-type.index');
+
   //settings
 
   Route::post('/carousels/{id}/add-slide', [CarouselController::class, 'addSlide'])

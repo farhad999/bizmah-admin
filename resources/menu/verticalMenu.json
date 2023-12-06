@@ -90,16 +90,23 @@
     },
     {
       "name": "Manage Orders",
-      "slug": "orders",
+      "slug": ["orders", "order-type"],
       "submenu": [
         {
           "url": "/orders",
           "name": "Orders",
           "slug": "orders.index"
         },{
-          "url": "/orders/confirmed",
+          "url": "/confirmed-orders",
           "name": "Confirmed Orders",
-          "slug": "orders.index"
+          "slug": "order-type.index",
+          "params": "confirmed"
+        },
+        {
+          "url": "/pending-orders",
+          "name": "Pending Orders",
+          "slug": "order-type.index",
+          "params": "pending"
         }
       ]
     },

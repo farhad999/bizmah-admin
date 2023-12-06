@@ -8,7 +8,7 @@
 
   <div class="card">
     <div class="card-header d-flex justify-content-between align-items-center">
-      <h4>{{$title}}</h4>
+      <h4 class="card-title text-capitalize">{{$title}}</h4>
       <!--buttons-->
       @if(!empty($buttons))
         <div class="d-flex align-items-center">

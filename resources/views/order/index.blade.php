@@ -3,8 +3,18 @@
 @section('title', 'Orders')
 
 @section('vendor-style')
-  <link rel="stylesheet" href="{{asset(mix('assets/vendor/libs/bootstrap-daterangepicker/bootstrap-daterangepicker.css'))}}">
+  <link rel="stylesheet"
+        href="{{asset(mix('assets/vendor/libs/bootstrap-daterangepicker/bootstrap-daterangepicker.css'))}}">
 @endsection
+
+@php
+
+  if(!empty($type)){
+      $title = $type . ' Orders';
+  }else{
+      $title = 'Orders';
+  }
+@endphp
 
 @section('content')
 
@@ -22,15 +32,17 @@
             id="date_range"
           />
         </div>
-        <div class="col-sm-4">
-          <x-form.select
-            name="status"
-            label="Order Status"
-            placeholder="All"
-            :options="$orderStatuses"
-            id="status"
-          />
-        </div>
+        @empty($type)
+          <div class="col-sm-4">
+            <x-form.select
+              name="status"
+              label="Order Status"
+              placeholder="All"
+              :options="$orderStatuses"
+              id="status"
+            />
+          </div>
+        @endif
         <div class="col-sm-4">
           <x-form.select
             name="shipping_status"
@@ -44,7 +56,7 @@
     </div>
   </div>
 
-  <x-content title="Orders">
+  <x-content :title="$title">
 
     <x-slot name="buttons">
       <a href="{{route("orders.create")}}" class="btn btn-primary">Create</a>
@@ -74,7 +86,7 @@
 
 @section('vendor-script')
   <script src="{{asset(mix('assets/vendor/libs/moment/moment.js'))}}"></script>
-  <script src="{{asset(mix('assets/vendor/libs/bootstrap-daterangepicker/bootstrap-daterangepicker.js'))}}" ></script>
+  <script src="{{asset(mix('assets/vendor/libs/bootstrap-daterangepicker/bootstrap-daterangepicker.js'))}}"></script>
 @endsection
 
 @section('js')

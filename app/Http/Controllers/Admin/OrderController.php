@@ -33,12 +33,20 @@ class OrderController extends Controller
     'outside_dhaka' => 'Outside Dhaka'
   ];
 
-  function index(Request $request)
+  function index(Request $request, $type = null)
   {
 
     if (request()->ajax()) {
 
       $query = Order::orderBy('date', 'desc');
+
+      if ($type == 'confirmed') {
+        $query->where('status', 'confirmed');
+      }
+
+      if ($type == 'pending') {
+        $query->where('status', 'pending');
+      }
 
       //status
       $status = $request->input('status');
@@ -87,6 +95,7 @@ class OrderController extends Controller
     return view('order.index', [
       'shippingStatuses' => $this->shippingStatuses,
       'orderStatuses' => $this->orderStatuses,
+      'type' => $type
     ]);
   }
 
