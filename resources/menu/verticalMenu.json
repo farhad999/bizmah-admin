@@ -25,56 +25,13 @@
       ]
     },
     {
-      "name": "Brands",
-      "slug": "brands",
-      "submenu": [
-        {
-          "url": "/brands",
-          "name": "Brands",
-          "slug": "brands.index"
-        },
-        {
-          "url": "/brands/create",
-          "name": "Create",
-          "slug": "brands.create"
-        }
-      ]
-    },
-    {
-      "name": "Categories",
-      "slug": "categories",
-      "submenu": [
-        {
-          "url": "/categories",
-          "name": "Categories",
-          "slug": "categories.index"
-        },
-        {
-          "url": "/categories/create",
-          "name": "Create",
-          "slug": "categories.create"
-        }
-      ]
-    },
-    {
-      "name": "Variations",
-      "slug": "variations",
-      "submenu": [
-        {
-          "url": "/variation-templates",
-          "name": "Variations",
-          "slug": "variation-templates.index"
-        },
-        {
-          "url": "/variation-templates/create",
-          "name": "Create",
-          "slug": "variation-templates.create"
-        }
-      ]
-    },
-    {
       "name": "Products",
-      "slug": "products",
+      "slug": [
+        "products",
+        "brands",
+        "categories",
+        "variations"
+      ],
       "submenu": [
         {
           "url": "/products",
@@ -82,21 +39,69 @@
           "slug": "products.index"
         },
         {
-          "url": "/products/create",
-          "name": "Create",
-          "slug": "products.create"
+          "name": "Brands",
+          "slug": "brands",
+          "submenu": [
+            {
+              "url": "/brands",
+              "name": "Brands",
+              "slug": "brands.index"
+            },
+            {
+              "url": "/brands/create",
+              "name": "Create",
+              "slug": "brands.create"
+            }
+          ]
+        },
+        {
+          "name": "Categories",
+          "slug": "categories",
+          "submenu": [
+            {
+              "url": "/categories",
+              "name": "Categories",
+              "slug": "categories.index"
+            },
+            {
+              "url": "/categories/create",
+              "name": "Create",
+              "slug": "categories.create"
+            }
+          ]
+        },
+        {
+          "name": "Variations",
+          "slug": "variations",
+          "submenu": [
+            {
+              "url": "/variation-templates",
+              "name": "Variations",
+              "slug": "variation-templates.index"
+            },
+            {
+              "url": "/variation-templates/create",
+              "name": "Create",
+              "slug": "variation-templates.create"
+            }
+          ]
         }
       ]
     },
     {
       "name": "Manage Orders",
-      "slug": ["orders", "order-type"],
+      "slug": [
+        "orders",
+        "order-type"
+      ],
+      "icon": "menu-icon tf-icons ti ti-shopping-cart",
       "submenu": [
         {
           "url": "/orders",
           "name": "Orders",
           "slug": "orders.index"
-        },{
+        },
+        {
           "url": "/confirmed-orders",
           "name": "Confirmed Orders",
           "slug": "order-type.index",
@@ -112,7 +117,11 @@
     },
     {
       "name": "Settings",
-      "slug": ["settings", "carousels", "featured-categories"],
+      "slug": [
+        "settings",
+        "carousels",
+        "featured-categories"
+      ],
       "icon": "menu-icon tf-icons ti ti-settings",
       "submenu": [
         {
@@ -131,6 +140,11 @@
           "slug": "featured-categories.index"
         }
       ]
+    },
+    {
+      "name": "Pages",
+      "slug": "pages.index",
+      "icon": "menu-icon tf-icons ti ti-file"
     }
   ]
 }

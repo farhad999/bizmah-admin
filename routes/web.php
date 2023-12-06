@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\VariationTemplateController;
 use App\Http\Controllers\CarouselController;
 use App\Http\Controllers\FeaturedCategoryController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SettingController;
 use Illuminate\Support\Facades\Route;
@@ -64,6 +65,8 @@ Route::middleware(['auth'])->group(function () {
   Route::get('{type}-orders', [OrderController::class, 'index'])
     ->where('type', 'confirmed|pending|cancelled')
     ->name('order-type.index');
+
+  Route::resource('/pages', PageController::class);
 
   //settings
 
