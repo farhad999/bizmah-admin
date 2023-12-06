@@ -38,6 +38,10 @@ Route::post('/auth/logout', [AuthController::class, 'logout']);
 Route::get('get-cities', [AddressController::class, 'getCities']);
 Route::get('get-zones/{city-id}', [AddressController::class, 'getZones']);
 
+Route::get('/settings', [HomeController::class, 'getSettings']);
+Route::get('/featured-categories', [ProductController::class, 'getFeaturedCategories']);
+Route::get('/home-slides', [HomeController::class, 'homeSlides']);
+
 Route::middleware('auth:sanctum')->group(function () {
   Route::get('/auth/user', [AuthController::class, 'getUser']);
 
@@ -55,8 +59,6 @@ Route::middleware('auth:sanctum')->group(function () {
   //orders
   Route::resource('/orders', OrderController::class)
   ->except('store');
-
-  Route::get('/settings', [HomeController::class, 'getSettings']);
 
 });
 

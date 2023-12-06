@@ -96,6 +96,10 @@
           "url": "/orders",
           "name": "Orders",
           "slug": "orders.index"
+        },{
+          "url": "/orders/confirmed",
+          "name": "Confirmed Orders",
+          "slug": "orders.index"
         }
       ]
     },

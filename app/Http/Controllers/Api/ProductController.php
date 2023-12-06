@@ -138,6 +138,23 @@ class ProductController extends Controller
     return response()->json($categories);
   }
 
+  function getFeaturedCategories()
+  {
+    $categories = Category::with(['children' => function ($query) {
+      $query->select('id', 'name', 'slug', 'parent_id', 'image')
+        ->with(['children' => function ($query) {
+          $query->select('id', 'name', 'slug', 'parent_id', 'image');
+        }]);
+    }])
+      ->join('category_collections', 'categories.id', '=', 'category_collections.category_id')
+      ->where('category_collections.type', 'featured')
+      ->select('categories.id', 'name', 'slug', 'parent_id', 'image')
+      ->whereNull('parent_id')
+      ->get();
+
+    return response()->json($categories);
+  }
+
   function show($slug)
   {
     $product = Product::with(['variations', 'images'])
