@@ -225,7 +225,9 @@ class ProductController extends Controller
         }
 
         if (array_key_exists('image', $v) && $request->hasFile("variations.{$index}.image")) {
-          $image = (new FileService())->fileUpload($variation['image']);
+
+          $image = (new FileService())->upload($request, "variations.{$index}.image");
+
           $variation['image'] = $image;
         }
 
