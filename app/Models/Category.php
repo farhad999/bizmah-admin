@@ -13,7 +13,7 @@ class Category extends Model
   use HasFactory, SoftDeletes, Sluggable;
 
   protected $guarded = ['id'];
-  protected $appends = ['image_url'];
+  protected $appends = ['image_url', 'banner_image_url'];
 
   function children()
   {
@@ -36,6 +36,14 @@ class Category extends Model
     }
 
     return Storage::url($this->image);
+  }
+
+  function getBannerImageUrlAttribute()
+  {
+    if (!$this->banner_image) {
+      return asset('/assets/img/no-image.png');
+    }
+    return Storage::url($this->banner_image);
   }
 
   function parent()
