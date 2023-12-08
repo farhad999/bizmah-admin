@@ -21,15 +21,6 @@
             value="{{$category->name}}"
           />
         </div>
-        <div class="col-sm-6">
-          <x-form.file-input
-            accept="image/jpeg, image/png, image/jpg"
-            label="Image"
-            name="image"
-            images="{{$category->image_url}}"
-          />
-
-        </div>
 
         <div class="col-sm-6">
           <div class="form-group mb-3">
@@ -48,6 +39,26 @@
               @endforeach
             </select>
           </div>
+
+        </div>
+
+        <div class="col-sm-6">
+          <x-form.file-input
+            accept="image/jpeg, image/png, image/jpg"
+            label="Image"
+            name="image"
+            images="{{$category->image_url}}"
+          />
+
+        </div>
+
+        <div class="col-sm-6">
+          <x-form.file-input
+            accept="image/jpeg, image/png, image/jpg"
+            label="Banner Image"
+            name="image"
+            images="{{$category->banner_image_url}}"
+          />
 
         </div>
 

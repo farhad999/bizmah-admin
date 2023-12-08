@@ -15,6 +15,7 @@ $title = "Categories";
         <tr>
           <th>Name</th>
           <th>Image</th>
+          <th>Banner</th>
           <th>Parent</th>
           <th>Status</th>
           <th>Visibility</th>
@@ -35,6 +36,7 @@ $title = "Categories";
         columns: [
           {data: 'name'},
           {data: 'image'},
+          {data: 'banner_image'},
           {data: 'parent_name'},
           {data: 'status'},
           {data: 'visibility'},

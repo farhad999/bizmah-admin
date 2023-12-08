@@ -14,15 +14,6 @@
             data-rules="required"
           />
         </div>
-        <div class="col-sm-6">
-          <x-form.file-input
-            accept="image/jpeg, image/png, image/jpg"
-            label="Image"
-            :required="true"
-            name="image"
-          />
-
-        </div>
 
         <div class="col-sm-6">
           <div class="form-group mb-3">
@@ -37,6 +28,27 @@
               @endforeach
             </select>
           </div>
+
+        </div>
+
+        <div class="col-sm-6">
+          <x-form.file-input
+            accept="image/jpeg, image/png, image/jpg"
+            label="Image"
+            :required="true"
+            name="image"
+          />
+
+        </div>
+
+        <div class="col-sm-6">
+          <x-form.file-input
+            accept="image/jpeg, image/png, image/jpg"
+            label="Banner Image"
+            :required="true"
+            name="banner_image"
+            hint="Recommended Aspect ratio 3:1"
+          />
 
         </div>
 

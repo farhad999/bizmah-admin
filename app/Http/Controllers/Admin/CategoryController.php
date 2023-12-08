@@ -35,13 +35,16 @@ class CategoryController extends Controller
             return '<span class="badge bg-danger">Hidden</span>';
           }
         })
+        ->editColumn('banner_image', function ($row) {
+          return '<img src="' . $row->banner_image_url . '" class="table-thumb">';
+        })
         ->addColumn('parent_name', function ($row) {
           if ($row->parent) {
             return $row->parent->name;
           }
           return "Parent";
         })
-        ->rawColumns(['image', 'action', 'visibility', 'status'])
+        ->rawColumns(['image', 'action', 'visibility', 'status', 'banner_image', 'parent_name'])
         ->make(true);
 
     }
@@ -68,7 +71,8 @@ class CategoryController extends Controller
       'visibility' => 'required',
       'description' => 'nullable|string',
       'parent_id' => 'nullable|numeric',
-      'image' => 'required|mimes:image:jpeg,png,jpg|max:2048'
+      'image' => 'required|mimes:image:jpeg,png,jpg|max:2048',
+      'banner_image' => 'mimes:image:jpeg,png,jpg|max:2048',
     ]);
 
     if ($validator->fails()) {
@@ -84,6 +88,7 @@ class CategoryController extends Controller
     //$data['level'] = $parent->level + 1;
 
     $data['image'] = (new FileService())->upload($request, 'image');
+    $data['banner_image'] = (new FileService())->upload($request, 'banner_image');
 
     Category::create($data);
 
@@ -115,7 +120,8 @@ class CategoryController extends Controller
       'status' => 'required',
       'visibility' => 'required',
       'description' => 'nullable|string',
-      'image' => 'mimes:image:jpeg,png,jpg|max:2048'
+      'image' => 'mimes:image:jpeg,png,jpg|max:2048',
+      'banner_image' => 'mimes:image:jpeg,png,jpg|max:2048',
     ]);
 
     if ($validator->fails()) {
@@ -127,10 +133,16 @@ class CategoryController extends Controller
     $data = $validator->safe()->except('image');
 
     $image = (new FileService())->upload($request, 'image');
+    $bannerImage = (new FileService())->upload($request, 'banner_image');
 
     if (!empty($image)) {
       unlink(storage_path('app/public/' . $category->image));
       $data['image'] = $image;
+    }
+
+    if (!empty($bannerImage)) {
+      unlink(storage_path('app/public/' . $category->banner_image));
+      $data['banner_image'] = $bannerImage;
     }
 
     $category->update($data);
