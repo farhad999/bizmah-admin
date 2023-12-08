@@ -26,9 +26,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/products/{slug}', [ProductController::class, 'show']);
 Route::get('/products', [ProductController::class, 'index']);
+Route::get('/get-related-products/{slug}', [ProductController::class, 'getRelatedProducts']);
 Route::get('/categories', [ProductController::class, 'categories']);
 Route::get('/new-arrivals', [HomeController::class, 'latestProducts']);
 Route::get('/cart-products', [ProductController::class, 'cartProducts']);
+Route::get('/product-filters', [ProductController::class, 'getFilters']);
 
 //customer authentication
 Route::post('/auth/get-code', [AuthController::class, 'getCode']);
@@ -41,6 +43,8 @@ Route::get('get-zones/{city-id}', [AddressController::class, 'getZones']);
 Route::get('/settings', [HomeController::class, 'getSettings']);
 Route::get('/featured-categories', [ProductController::class, 'getFeaturedCategories']);
 Route::get('/home-slides', [HomeController::class, 'homeSlides']);
+
+Route::get('/page/{slug}', [HomeController::class, 'getPage']);
 
 Route::middleware('auth:sanctum')->group(function () {
   Route::get('/auth/user', [AuthController::class, 'getUser']);
