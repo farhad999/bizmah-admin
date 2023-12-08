@@ -1,4 +1,5 @@
-@props(['accept' => 'image/*', 'name', 'multiple' =>false, 'required' => false, 'label', 'images' => [], 'id' => null])
+@props(['accept' => 'image/*', 'name', 'multiple' =>false, 'required' => false,
+'label', 'images' => [], 'id' => null, 'hint' => ''])
 <div class="image-box mb-3">
   @if(!empty($label))
     <label class="form-label">{{$label}}
@@ -17,6 +18,9 @@
       @if($required) required="required" @endif
       @if($multiple) multiple="multiple" @endif
     />
+    @if(!empty($hint))
+      <small>{{$hint}}</small>
+    @endif
   </div>
 
   @php
