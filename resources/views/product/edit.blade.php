@@ -156,6 +156,14 @@
                 />
               </div>
 
+              <div class="col-12">
+                <x-form.file-input
+                  name="secondary_image"
+                  label="Secondary Image"
+                  images="{{$product->secondary_image_url}}"
+                />
+              </div>
+
               {{--<div class="col-12">
                 <x-form.file-input
                   name="gallery_images[]"

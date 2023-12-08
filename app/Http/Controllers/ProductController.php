@@ -89,7 +89,8 @@ class ProductController extends Controller
       'variations.*.price' => 'required',
       'variations.*.name' => 'required',
       'sku' => 'required:unique:products',
-      'image' => 'mimes:jpeg,png,jpg'
+      'image' => 'required|mimes:jpeg,png,jpg|max:2048',
+      'secondary_image' => 'mimes:jpeg,png,jpg|max:2048',
     ]);
 
     $productType = $request->input('type');
@@ -107,6 +108,7 @@ class ProductController extends Controller
     $productData['sku'] = $request->input('sku') ?? 'sku001';
     $productData['image'] = (new FileService())->upload($request, 'image');
     $productData['template'] = $template;
+    $productData['secondary_image'] = (new FileService())->upload($request, 'secondary_image');
 
     $galleryImages = (new FileService())->uploadMulti($request, 'gallery_images');
 
@@ -186,7 +188,8 @@ class ProductController extends Controller
       'name' => 'required',
       'variations.*.price' => 'required',
       'sku' => 'required|unique:products,id,' . $id,
-      'image' => 'mimes:jpeg,png,jpg'
+      'image' => 'mimes:jpeg,png,jpg|max:2048',
+      'secondary_image' => 'mimes:jpeg,png,jpg|max:2048',
     ]);
 
     $productData = $request->only(['name', 'short_description', 'description', 'category_id',
@@ -195,10 +198,18 @@ class ProductController extends Controller
 
     $productData['sku'] = $request->input('sku') ?? 'sku001';
     $image = (new FileService())->upload($request, 'image');
+    $secondaryImage = (new FileService())->upload($request, 'secondary_image');
     //update image if image provided
     if (!empty($image)) {
+      unlink(storage_path('app/public/' . $product->image));
       $productData['image'] = $image;
     }
+
+    if(!empty($secondaryImage)) {
+      unlink(storage_path('app/public/' . $product->secondary_image));
+      $productData['secondary_image'] = $secondaryImage;
+    }
+
 
     DB::beginTransaction();
 

@@ -12,7 +12,7 @@ class Product extends Model
   use HasFactory, Sluggable;
 
   protected $guarded = ['id'];
-  protected $appends = ['image_url'];
+  protected $appends = ['image_url', 'secondary_image_url'];
 
   function sluggable(): array
   {
@@ -35,6 +35,13 @@ class Product extends Model
       return asset( '/assets/img/no-image.png');
     }
     return Storage::url($this->image);
+  }
+
+  function getSecondaryImageUrlAttribute(){
+    if (!$this->secondary_image) {
+      return asset( '/assets/img/no-image.png');
+    }
+    return Storage::url($this->secondary_image);
   }
 
   function category()

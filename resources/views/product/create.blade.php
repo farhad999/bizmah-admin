@@ -141,6 +141,13 @@
 
               <div class="col-12">
                 <x-form.file-input
+                  name="secondary_image"
+                  label="Secondary Image"
+                />
+              </div>
+
+              <div class="col-12">
+                <x-form.file-input
                   name="gallery_images[]"
                   label="Image Gallery"
                   :multiple="true"

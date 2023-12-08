@@ -69,6 +69,9 @@ $(document).ready(function () {
     //stateSave: true,
     fixedHeader: true,
     aaSorting: [],
+    responsive: true,
+    serverSide: true,
+    processing: true,
     columnDefs: [
       {targets: "_all", orderable: false},
     ],
