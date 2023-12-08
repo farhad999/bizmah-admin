@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Carousel;
 use App\Models\Category;
 use App\Models\CategoryCollection;
+use App\Models\Page;
 use App\Models\Product;
 use App\Models\Setting;
 use Illuminate\Http\Request;
@@ -22,7 +23,7 @@ class HomeController extends Controller
   {
 
     $query = Product::join('variations', 'products.id', '=', 'variations.product_id')
-      ->select('products.id', 'products.name', 'products.slug', 'products.image', 'type', 'sku',
+      ->select('products.id', 'products.name', 'products.slug', 'products.image', 'type', 'sku', 'secondary_image',
         DB::raw('(SELECT(MAX(variations.price)) as price FROM variations WHERE variations.product_id = products.id) as max_price'),
         DB::raw('(SELECT(MIN(variations.price)) as price FROM variations WHERE variations.product_id = products.id) as min_price'),
         DB::raw('(SELECT(MAX(variations.old_price)) as price FROM variations WHERE variations.product_id = products.id) as max_old_price'),
@@ -67,6 +68,14 @@ class HomeController extends Controller
 
     $sliders = $carousel->slides;
     return response()->json($sliders);
+  }
+
+  function getPage($slug)
+  {
+    $page = Page::where('slug', $slug)
+      ->first();
+
+    return response()->json($page);
   }
 
 }

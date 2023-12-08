@@ -16,7 +16,7 @@ class ProductController extends Controller
   {
 
     $query = Product::join('variations', 'products.id', '=', 'variations.product_id')
-      ->select('products.id', 'products.name', 'products.slug', 'products.image', 'type', 'sku',
+      ->select('products.id', 'products.name', 'products.slug', 'products.image', 'type', 'sku', 'secondary_image',
         DB::raw('(SELECT(MAX(variations.price)) as price FROM variations WHERE variations.product_id = products.id) as max_price'),
         DB::raw('(SELECT(MIN(variations.price)) as price FROM variations WHERE variations.product_id = products.id) as min_price'),
         DB::raw('(SELECT(MAX(variations.old_price)) as price FROM variations WHERE variations.product_id = products.id) as max_old_price'),
@@ -141,15 +141,16 @@ class ProductController extends Controller
   function getFeaturedCategories()
   {
     $categories = Category::with(['children' => function ($query) {
-      $query->select('id', 'name', 'slug', 'parent_id', 'image')
+      $query->select('id', 'name', 'slug', 'parent_id', 'image', 'banner_image')
         ->with(['children' => function ($query) {
-          $query->select('id', 'name', 'slug', 'parent_id', 'image');
+          $query->select('id', 'name', 'slug', 'parent_id', 'image', 'banner_image');
         }]);
     }])
       ->join('category_collections', 'categories.id', '=', 'category_collections.category_id')
       ->where('category_collections.type', 'featured')
-      ->select('categories.id', 'name', 'slug', 'parent_id', 'image')
+      ->select('categories.id', 'name', 'slug', 'parent_id', 'image', 'banner_image')
       ->whereNull('parent_id')
+      ->orderBy('category_collections.order', 'asc')
       ->get();
 
     return response()->json($categories);
@@ -195,6 +196,45 @@ class ProductController extends Controller
       ->select('products.id', 'products.name', 'products.slug', 'products.image', 'type', 'sku',
         'products.template',
       )
+      ->get();
+
+    return response()->json($products);
+
+  }
+
+  function getRelatedProducts($slug)
+  {
+    $product = Product::where('slug', $slug)
+      ->first();
+
+    //now get related products
+
+    $query = Product::join('variations', 'products.id', '=', 'variations.product_id')
+      ->select('products.id', 'products.name', 'products.slug', 'products.image', 'type', 'sku',
+        DB::raw('(SELECT(MAX(variations.price)) as price FROM variations WHERE variations.product_id = products.id) as max_price'),
+        DB::raw('(SELECT(MIN(variations.price)) as price FROM variations WHERE variations.product_id = products.id) as min_price'),
+        DB::raw('(SELECT(MAX(variations.old_price)) as price FROM variations WHERE variations.product_id = products.id) as max_old_price'),
+        DB::raw('(SELECT(MIN(variations.old_price)) as price FROM variations WHERE variations.product_id = products.id) as min_old_price')
+      )->where('visibility', 1)
+      ->whereNot('slug', $slug)
+      ->where(function ($query) use ($product) {
+        if ($product->category_id) {
+          $query->orWhere('category_id', $product->category_id);
+        }
+
+        if ($product->sub_category_id) {
+          $query->orWhere('sub_category_id', $product->sub_category_id);
+        }
+
+        //brand
+
+        if ($product->brand_id) {
+          $query->orWhere('brand_id', $product->brand_id);
+        }
+      });
+
+    $products = $query->groupBy('products.id')
+      ->limit(12)
       ->get();
 
     return response()->json($products);
