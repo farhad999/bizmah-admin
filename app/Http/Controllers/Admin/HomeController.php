@@ -47,14 +47,12 @@ class HomeController extends Controller
       $eachDaySales = [];
 
 
-
       $last30daysSells = Order::whereDate('date', '>=', now()->subDays(30))
         ->whereDate('date', '<=', now())
         ->where('status', 'confirmed')
         ->select(DB::raw('DATE(date) as date'), \DB::raw('count(id) as total'))
         ->groupBy(DB::raw('DATE(date)'))
         ->get();
-
 
 
       $data = [
@@ -64,7 +62,7 @@ class HomeController extends Controller
         'totalCancelledOrders' => $cancelledOrders->count(),
         'last30daysSells' => $last30daysSells,
         'topOrderedProductsTable' => view("home.partials.top-ordered-products", compact('topOrderedProducts'))
-        ->render(),
+          ->render(),
       ];
 
       return response()->json($data);
@@ -74,4 +72,130 @@ class HomeController extends Controller
 
     return view('home.index');
   }
+
+  function getLast30daysOrders()
+  {
+    $endDate = now();
+    $startDate = now()->subDays(29);
+
+    // Fetch data for the last 30 days
+    $data = Order::whereDate('date', '>=', $startDate)
+      ->whereDate('date', '<=', $endDate)
+      ->select(DB::raw('DATE(date) as date'), DB::raw('COUNT(id) as total'))
+      ->groupBy(DB::raw('DATE(date)'))
+      ->orderBy('date', 'asc')
+      ->get();
+
+    // Fill in missing dates with zero values
+    $filledData = [];
+
+    $currentDate = $startDate;
+
+    while ($currentDate <= $endDate) {
+
+      $matchingEntry = $data->first(function ($entry) use ($currentDate) {
+        return $entry->date === $currentDate->format('Y-m-d');
+      });
+
+      if ($matchingEntry) {
+        $filledData[] = $matchingEntry;
+      } else {
+        // If no matching entry, create an entry with zero value
+        $filledData[] = (object)['date' => $currentDate->format('Y-m-d'), 'total' => 0];
+      }
+
+      $currentDate->addDay();
+    }
+
+    return response()->json($filledData);
+
+  }
+
+  function getComparisonOrders()
+  {
+
+    //data of last month
+
+    $startDate = now()->subMonth(1)->startOfMonth();
+    $endDate = now()->subMonth(1)->endOfMonth();
+
+    //now get orders and count them as before
+    $lastMonthOrders = Order::whereDate('date', '>=', $startDate)
+      ->whereDate('date', '<=', $endDate)
+      ->select(DB::raw('DATE(date) as date'), DB::raw('COUNT(id) as total'))
+      ->groupBy(DB::raw('DATE(date)'))
+      ->orderBy('date', 'asc')
+      ->get();
+
+    //fill for all date
+
+    $lastMonthData = [];
+
+
+    $currentDate = $startDate;
+
+    while ($currentDate <= $endDate) {
+
+
+      $matchingEntry = $lastMonthOrders->first(function ($entry) use ($currentDate) {
+        return $entry->date === $currentDate->format('Y-m-d');
+      });
+
+      if ($matchingEntry) {
+        $lastMonthData[] = $matchingEntry;
+      } else {
+        // If no matching entry, create an entry with zero value
+        $lastMonthData[] = (object)['date' => $currentDate->format('Y-m-d'), 'total' => 0];
+      }
+
+      $currentDate->addDay();
+
+    }
+
+    //do for current month
+
+    $startDate = now()->startOfMonth();
+    $endDate = now()->endOfMonth();
+
+    //now get orders and count them as before
+
+    $currentMonthOrders = Order::whereDate('date', '>=', $startDate)
+      ->whereDate('date', '<=', $endDate)
+      ->select(DB::raw('DATE(date) as date'), DB::raw('COUNT(id) as total'))
+      ->groupBy(DB::raw('DATE(date)'))
+      ->orderBy('date', 'asc')
+      ->get();
+
+    //fill for all date
+
+    $currentMonthData = [];
+
+
+    $currentDate = $startDate;
+
+    while ($currentDate <= $endDate) {
+
+      $matchingEntry = $currentMonthOrders->first(function ($entry) use ($currentDate) {
+        return $entry->date === $currentDate->format('Y-m-d');
+      });
+
+      if ($matchingEntry) {
+        $currentMonthData[] = $matchingEntry;
+      } else {
+        // If no matching entry, create an entry with zero value
+        $currentMonthData[] = (object)['date' => $currentDate->format('Y-m-d'), 'total' => 0];
+      }
+
+      $currentDate->addDay();
+
+    }
+
+    return response()->json([
+      'lastMonth' => $lastMonthData,
+      'currentMonth' => $currentMonthData
+    ]);
+
+
+  }
+
 }

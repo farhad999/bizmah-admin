@@ -28,6 +28,10 @@ Route::middleware(['auth'])->group(function () {
   Route::get('/', [HomeController::class, 'index'])
     ->name('home.index');
 
+  Route::get('/get-last-30-days-orders-data', [HomeController::class, 'getLast30DaysOrders']);
+
+  Route::get('/get-comparison-orders', [HomeController::class, 'getComparisonOrders']);
+
   //user
   Route::resource('/users', UserController::class);
   Route::resource('/brands', BrandController::class);
