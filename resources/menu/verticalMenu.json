@@ -25,7 +25,8 @@
       ]
     },
     {
-      "name": "Products",
+      "name": "Manage Products",
+      "icon": "menu-icon tf-icons ti ti-box",
       "slug": [
         "products",
         "brands",
@@ -34,9 +35,20 @@
       ],
       "submenu": [
         {
-          "url": "/products",
           "name": "Products",
-          "slug": "products.index"
+          "slug": "products.index",
+          "submenu": [
+            {
+              "url": "/products",
+              "name": "Product List",
+              "slug": "products.index"
+            },
+            {
+              "url": "/products/create",
+              "name": "Add Product",
+              "slug": "products.create"
+            }
+          ]
         },
         {
           "name": "Brands",
@@ -143,8 +155,20 @@
     },
     {
       "name": "Pages",
-      "slug": "pages.index",
-      "icon": "menu-icon tf-icons ti ti-file"
+      "slug": "pages",
+      "icon": "menu-icon tf-icons ti ti-file",
+      "submenu": [
+        {
+          "name": "Page List",
+          "url": "/pages",
+          "slug": "pages.index"
+        },
+        {
+          "name": "Add Page",
+          "url": "/pages/create",
+          "slug": "pages.create"
+        }
+      ]
     }
   ]
 }
