@@ -21,9 +21,9 @@
             <!-- Logo -->
             <div class="app-brand justify-content-center mb-4 mt-2">
               <a href="{{url('/')}}" class="app-brand-link gap-2">
-                <span
-                  class="app-brand-logo demo">@include('_partials.macros',["height"=>20,"withbg"=>'fill: #fff;'])</span>
-                <span class="app-brand-text demo text-body fw-bold ms-1">{{config('app.name')}}</span>
+                <img src="{{asset('assets/img/logo.png')}}" alt="BizMah"
+                style="height: 40px;"
+                >
               </a>
             </div>
 
@@ -45,7 +45,8 @@
                          aria-describedby="password"
                          data-rules="required"
                   />
-                  <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
+                  <span class="input-group-text cursor-pointer" id="toggle_password">
+                    <i class="ti ti-eye-off"></i></span>
                 </div>
               </div>
               <div class="mb-3">
@@ -65,4 +66,16 @@
       </div>
     </div>
   </div>
+@endsection
+
+@section('js')
+  <script>
+    $(document).ready(function () {
+      $('#toggle_password').on('click', function () {
+        const type = $('#password').attr('type') === 'password' ? 'text' : 'password'
+        $('#password').attr('type', type)
+        $(this).find('i').toggleClass('ti-eye ti-eye-off')
+      })
+    })
+  </script>
 @endsection
