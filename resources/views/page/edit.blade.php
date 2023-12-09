@@ -11,6 +11,11 @@
 
 @section('content')
   <x-content title="Update Page">
+
+    <x-slot name="buttons">
+      <a href="{{route("pages.index")}}" class="btn btn-primary">Back</a>
+    </x-slot>
+
     <x-form action="{{route('pages.update', $page->id)}}"
     id="validate_form"
     >

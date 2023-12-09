@@ -11,6 +11,11 @@
 
 @section('content')
   <x-content title="Add Page">
+
+    <x-slot name="buttons">
+      <a href="{{route("pages.index")}}" class="btn btn-primary">Back</a>
+    </x-slot>
+
     <x-form action="{{route('pages.store')}}"
     id="validate_form"
     >

@@ -4,6 +4,13 @@
 
 @section('content')
   <x-content title="Pages">
+
+    <x-slot name="buttons">
+      <a href="{{route('pages.create')}}"
+      class="btn btn-primary"
+      >Create Page</a>
+    </x-slot>
+
     <div>
       <table class="table table-bordered">
         <thead>
