@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Storage;
 
 class Category extends Model
 {
-  use HasFactory, SoftDeletes, Sluggable;
+  use HasFactory, Sluggable;
 
   protected $guarded = ['id'];
   protected $appends = ['image_url', 'banner_image_url'];
@@ -24,8 +24,10 @@ class Category extends Model
   {
     return [
       'slug' => [
-        'source' => 'name'
-      ]
+        'source' => 'name',
+        'includeTrashed' => true
+      ],
+
     ];
   }
 

@@ -155,7 +155,19 @@ class CategoryController extends Controller
   function destroy($id)
   {
     $category = Category::find($id);
+
+    //check if category being used by another category
+    //or in other products
+
+    $categories = Category::where('parent_id', $category->id)
+      ->get();
+
+    if (count($categories) > 0) {
+      return response()->json(['status' => 'error', 'message' => "Unable to delete. This category has sub categories. Try to update."]);
+    }
+
     unlink(storage_path('app/public/' . $category->image));
+
     $category->delete();
 
     return response()->json(['status' => 'success', 'message' => 'Category deleted successfully']);

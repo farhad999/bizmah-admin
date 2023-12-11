@@ -156,6 +156,11 @@ $(document).on('click', '.delete-item-btn', function () {
           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
         success: function (res) {
+          let {status} = res;
+          if(status === 'error'){
+            toastr.error(res.message ?? 'Something went wrong');
+            return;
+          }
           toastr.success(res.message);
           window.location.reload();
         },
