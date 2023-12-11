@@ -62,7 +62,9 @@ class HomeController extends Controller
 
   function homeSlides()
   {
-    $carousel = Carousel::with('slides')
+    $carousel = Carousel::with(['slides' => function ($query) {
+      $query->orderBy('order', 'asc');
+    }])
       ->where('status', 1)
       ->first();
 
