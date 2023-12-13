@@ -31,7 +31,7 @@
   <div class="image-preview-gallery d-flex px-1">
     @foreach($images as $image)
       <div class="image-preview-old">
-        <input type="hidden" name="prev_images[]" value="{{$image}}"/>
+        {{--<input type="hidden" name="prev_images[]" value="{{$image}}"/>--}}
         <img src="{{$image}}"/>
       </div>
     @endforeach
