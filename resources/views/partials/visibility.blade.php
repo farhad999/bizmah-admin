@@ -10,6 +10,5 @@ $options = [1 => 'Visible', 0 => 'Hidden'];
     :required="true"
     data-rules="required"
     noPlaceholder="true"
-    value=""
   />
 </div>
