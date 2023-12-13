@@ -11,10 +11,17 @@ use App\Services\FileService;
 use App\Models\Variation;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
+
+  private $fileService;
+
+  function __construct(FileService $fileService)
+  {
+    $this->fileService = $fileService;
+  }
+
   function index()
   {
 
@@ -44,6 +51,11 @@ class ProductController extends Controller
         ->addColumn('price', function ($row) {
           $min = $row->variations->pluck('price')->min();
           $max = $row->variations->pluck('price')->max();
+
+          if ($min == $max) {
+            return $min;
+          }
+
           return $min . ' - ' . $max;
         })
         ->rawColumns(['visibility', 'action', 'image'])
@@ -201,12 +213,16 @@ class ProductController extends Controller
     $secondaryImage = (new FileService())->upload($request, 'secondary_image');
     //update image if image provided
     if (!empty($image)) {
-      unlink(storage_path('app/public/' . $product->image));
+
+      $this->fileService->delete($product->image);
+
       $productData['image'] = $image;
     }
 
-    if(!empty($secondaryImage)) {
-      unlink(storage_path('app/public/' . $product->secondary_image));
+    if (!empty($secondaryImage)) {
+
+      $this->fileService->delete($product->secondary_image);
+
       $productData['secondary_image'] = $secondaryImage;
     }
 
@@ -272,6 +288,10 @@ class ProductController extends Controller
   function destroy($id)
   {
     $product = Product::findOrFail($id);
+
+    $this->fileService->delete($product->image);
+    $this->fileService->delete($product->secondary_image);
+
     $product->delete();
     return response()->json(['status' => 'success', 'message' => 'Product deleted successfully']);
   }
@@ -368,7 +388,7 @@ class ProductController extends Controller
 
       $image = ProductImage::findOrFail($imageId);
 
-      Storage::delete($image->image);
+      $this->fileService->delete($image->image);
 
       $image->delete();
 
@@ -378,13 +398,15 @@ class ProductController extends Controller
     }
   }
 
-  function search(){
+  function search()
+  {
     $q = \request()->input('q');
-    $products = Product::where('name', 'like', '%'.$q.'%')->get();
+    $products = Product::where('name', 'like', '%' . $q . '%')->get();
     return response()->json($products);
   }
 
-  function getVariation(){
+  function getVariation()
+  {
     $id = \request()->input('id');
     $variation = Variation::findOrFail($id);
     return response()->json($variation);
