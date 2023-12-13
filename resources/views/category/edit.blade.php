@@ -56,7 +56,7 @@
           <x-form.file-input
             accept="image/jpeg, image/png, image/jpg"
             label="Banner Image"
-            name="image"
+            name="banner_image"
             images="{{$category->banner_image_url}}"
           />
 

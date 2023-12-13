@@ -6,10 +6,19 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Services\FileService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class CategoryController extends Controller
 {
+
+  private $fileService = null;
+
+  function __construct(FileService $fileService)
+  {
+    $this->fileService = $fileService;
+  }
+
   function index()
   {
     if (\request()->ajax()) {
@@ -136,12 +145,12 @@ class CategoryController extends Controller
     $bannerImage = (new FileService())->upload($request, 'banner_image');
 
     if (!empty($image)) {
-      unlink(storage_path('app/public/' . $category->image));
+      $this->fileService->delete($category->image);
       $data['image'] = $image;
     }
 
     if (!empty($bannerImage)) {
-      unlink(storage_path('app/public/' . $category->banner_image));
+      $this->fileService->delete($category->banner_image);
       $data['banner_image'] = $bannerImage;
     }
 
@@ -166,7 +175,10 @@ class CategoryController extends Controller
       return response()->json(['status' => 'error', 'message' => "Unable to delete. This category has sub categories. Try to update."]);
     }
 
-    unlink(storage_path('app/public/' . $category->image));
+    //unlink different so that no error
+
+    $this->fileService->delete($category->image);
+    $this->fileService->delete($category->banner_image);
 
     $category->delete();
 
