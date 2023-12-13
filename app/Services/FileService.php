@@ -19,7 +19,7 @@ class FileService
   //file will be passed
   public function fileUpload($file)
   {
-    if(empty($file)){
+    if (empty($file)) {
       return null;
     }
     return $this->handleUpload($file);
@@ -75,6 +75,13 @@ class FileService
 
     return $filename;
 
+  }
+
+  function delete($path)
+  {
+    if (!empty($path)) {
+      Storage::delete($path);
+    }
   }
 
 
