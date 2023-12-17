@@ -142,8 +142,10 @@ class ProductController extends Controller
   {
     $categories = Category::with(['children' => function ($query) {
       $query->select('id', 'name', 'slug', 'parent_id', 'image', 'banner_image')
+        ->orderBy('name', 'asc')
         ->with(['children' => function ($query) {
-          $query->select('id', 'name', 'slug', 'parent_id', 'image', 'banner_image');
+          $query->select('id', 'name', 'slug', 'parent_id', 'image', 'banner_image')
+          ->orderby('name', 'asc');
         }]);
     }])
       ->join('category_collections', 'categories.id', '=', 'category_collections.category_id')
