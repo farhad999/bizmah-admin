@@ -13,7 +13,7 @@
 
 @section('content')
 
-  <x-error-alert />
+  <x-error-alert/>
 
   <x-form action="{{route('products.store')}}"
           id="validate_form"
@@ -182,7 +182,7 @@
         theme: 'snow'
       });
 
-      quill.on('text-change', function() {
+      quill.on('text-change', function () {
         // Set the value on blur
         $('#description').val(quill.root.innerHTML);
       });
@@ -282,6 +282,32 @@
     $(document).on('click', '.remove-variation-btn', function () {
       let tr = $(this).closest('tr');
       tr.remove();
+    })
+
+    $(document).on('click', '#set_all_price', function () {
+
+      let table = $('#variation_table');
+
+      let price = table.find('tbody tr:first').find('.td-price').val();
+
+      //now set this value to all rows
+      table.find('tbody tr').each(function () {
+        $(this).find('.td-price').val(price);
+      })
+
+    })
+
+    $(document).on('click', '#set_all_old_price', function () {
+
+      let table = $('#variation_table');
+
+      let price = table.find('tbody tr:first').find('.td-old-price').val();
+
+      //now set this value to all rows
+      table.find('tbody tr').each(function () {
+        $(this).find('.td-old-price').val(price);
+      })
+
     })
 
   </script>

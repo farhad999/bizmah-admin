@@ -3,8 +3,13 @@
     <thead>
     <tr>
       <th>Name *</th>
-      <th>Old Price</th>
-      <th>Price *</th>
+      <th>
+        <i class="fa fa-check text-primary cursor-pointer" id="set_all_old_price"></i>
+        Old Price</th>
+      <th>
+        <i class="fa fa-check text-primary cursor-pointer" id="set_all_price"></i>
+        Price*
+      </th>
       <th>Image</th>
       <th>Action</th>
     </tr>
@@ -24,6 +29,7 @@
             name="{{'variations['.$index.'][old_price]'}}"
             placeholder="Old Price"
             data-rules="number"
+            class="td-old-price"
           />
         </td>
         <td class="p-1">
@@ -32,6 +38,7 @@
             placeholder="Price"
             required="true"
             data-rules="required|number"
+            class="td-price"
           />
         </td>
         <td class="p-1">
