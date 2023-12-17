@@ -57,8 +57,8 @@
       @foreach($product->variations as $variation)
         <tr>
           <td>{{$variation->name}}</td>
-          <td>{{$variation->price}}</td>
           <td>{{$variation->old_price}}</td>
+          <td>{{$variation->price}}</td>
           <td><img src="{{$variation->image_url}}"
                    class="table-thumb"
                    alt="variation-image"/>
