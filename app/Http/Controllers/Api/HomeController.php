@@ -32,7 +32,9 @@ class HomeController extends Controller
       ->groupBy('products.id')
       ->orderBy('products.created_at', 'desc');
 
-    $products = $query->paginate(5);
+    $perPage = request()->input('per_page', 10);
+
+    $products = $query->paginate($perPage);
 
     return response()->json($products);
 
