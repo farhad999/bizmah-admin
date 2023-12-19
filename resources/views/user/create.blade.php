@@ -1,5 +1,7 @@
 @extends('layouts.layoutMaster')
 
+@section('title', 'Create User')
+
 @section('content')
   <x-content title="Create User">
     <x-form action="{{route('users.store')}}">

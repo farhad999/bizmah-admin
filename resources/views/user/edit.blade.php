@@ -1,5 +1,7 @@
 @extends('layouts.layoutMaster')
 
+@section('title', 'Edit User')
+
 @section('content')
   <x-content title="Edit User">
     <x-form action="{{route('users.update', $user->id)}}" method="PUT">

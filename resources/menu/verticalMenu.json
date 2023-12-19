@@ -7,10 +7,21 @@
       "slug": "home.index"
     },
     {
-      "url": "/users",
       "name": "Users",
       "icon": "menu-icon tf-icons ti ti-user",
-      "slug": "users.index"
+      "slug": "users",
+      "submenu": [
+        {
+          "url": "/users",
+          "name": "Users",
+          "slug": "users.index"
+        },
+        {
+          "url": "/users/create",
+          "name": "Add User",
+          "slug": "users.create"
+        }
+      ]
     },
     {
       "name": "Customers",

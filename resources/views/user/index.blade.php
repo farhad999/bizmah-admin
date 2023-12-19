@@ -1,9 +1,10 @@
 @extends('layouts.layoutMaster')
 
+@section('title', 'Users')
+
 @section('content')
   <x-content title="Users">
-    <x-slot name="header">
-      <h3>Users</h3>
+    <x-slot name="buttons">
       <a href="{{route("users.create")}}" class="btn btn-primary">Add User</a>
     </x-slot>
 
