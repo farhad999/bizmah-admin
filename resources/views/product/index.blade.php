@@ -6,6 +6,62 @@
 @extends('layouts.layoutMaster')
 
 @section('content')
+
+  <div class="card card-action mb-2">
+
+    <div class="card-header">
+      <h5 class="card-action-title me-5">Filter</h5>
+      <div class="card-action-element">
+        <button class="btn btn-primary btn-sm" id="clear_filter">Clear All</button>
+      </div>
+    </div>
+
+    <div class="card-body">
+      <div class="row">
+        <div class="col-sm-4">
+          <x-form.select
+            name="category_id"
+            id="category_id"
+            label="Category"
+            :options="$categories"
+          />
+        </div>
+
+        <div class="col-sm-4">
+          <x-form.select
+            name="sub_category_id"
+            id="sub_category_id"
+            label="Sub Category"
+            :options="[]"
+          />
+        </div>
+
+        <div class="col-sm-4">
+          <x-form.select
+            name="sub_sub_category_id"
+            id="sub_sub_category_id"
+            label="Sub Sub Category"
+            :options="[]"
+          />
+        </div>
+
+        @php
+          $visibilities = ['' => 'All', '1' => 'Visible', '0' => 'Hidden'];
+        @endphp
+
+        <div class="col-sm-4">
+          <x-form.select
+            name="visibility"
+            id="visibility"
+            label="Visibility"
+            :options="$visibilities"
+          />
+        </div>
+
+      </div>
+    </div>
+  </div>
+
   <x-content :title="$title">
     <x-slot name="buttons">
       <a href="{{route("products.create")}}" class="btn btn-primary btn-sm me-2"><i class="ti ti-plus"></i>Add New</a>
@@ -37,9 +93,21 @@
 
 @section('js')
   <script>
+
+    let datatable = null;
+
     $(document).ready(function () {
-      $('#datatable').DataTable({
-        ajax: window.location.pathname,
+
+      datatable = $('#datatable').DataTable({
+        ajax: {
+          url: window.location.pathname,
+          data: function (d) {
+            d.category_id = $('#category_id').val();
+            d.sub_category_id = $('#sub_category_id').val();
+            d.sub_sub_category_id = $('#sub_sub_category_id').val();
+            d.visibility = $('#visibility').val();
+          }
+        },
         columns: [
           {data: 'action'},
           {data: 'image'},
@@ -51,6 +119,7 @@
           {data: 'visibility'}
         ]
       })
+
     })
 
     $(document).on('click', '.view-modal-btn', function () {
@@ -133,6 +202,55 @@
       });
 
     });
+
+    $('#category_id').on('change', function () {
+      let id = this.value;
+      $.ajax({
+        url: '/get-sub-categories',
+        data: {
+          id,
+        },
+        success: function (html) {
+          $('#sub_category_id').html(html);
+        }
+      })
+    })
+
+    $('#sub_category_id').on('change', function () {
+      let id = this.value;
+      $.ajax({
+        url: '/get-sub-categories',
+        data: {
+          id,
+        },
+        success: function (html) {
+          $('#sub_sub_category_id').html(html);
+        }
+      })
+    })
+
+    //now filter table
+
+    $(document).on('change', '#category_id, #sub_category_id, #sub_sub_category_id, #visibility', function () {
+      //reload
+
+      if (datatable) {
+        datatable.ajax.reload();
+      }
+    })
+
+    $('#clear_filter').on('click', function () {
+      $('#category_id').val('');
+      $('#sub_category_id').val('');
+      $('#sub_sub_category_id').val('');
+      $('#visibility').val('');
+
+      if (datatable) {
+        datatable.ajax.reload();
+      }
+
+    })
+
 
   </script>
 @endsection

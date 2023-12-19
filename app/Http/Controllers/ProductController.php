@@ -27,7 +27,30 @@ class ProductController extends Controller
 
     if (\request()->ajax()) {
 
-      $query = Product::with(['category', 'brand', 'variations']);
+      $query = Product::with(['category', 'brand', 'variations'])
+      ->orderBy('created_at', 'desc');
+
+      if (\request()->input('category_id')) {
+        $query->where('category_id', \request()->input('category_id'));
+      }
+
+      if (\request()->input('sub_category_id')) {
+        $query->where('sub_category_id', \request()->input('sub_category_id'));
+      }
+
+      if(\request()->input('sub_sub_category_id')) {
+        $query->where('sub_sub_category_id', \request()->input('sub_sub_category_id'));
+      }
+
+      if (\request()->input('brand_id')) {
+        $query->where('brand_id', \request()->input('brand_id'));
+      }
+
+      if (\request()->input('visibility')) {
+        $query->where('visibility', \request()->input('visibility'));
+      }
+
+
 
       return datatables()->of($query)
         ->addColumn('category_name', function ($row) {
@@ -62,7 +85,9 @@ class ProductController extends Controller
         ->make(true);
     }
 
-    return view("product.index");
+    $categories = Category::getForDropdown();
+
+    return view("product.index", compact('categories'));
   }
 
   function create()
