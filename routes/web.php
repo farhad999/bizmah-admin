@@ -70,6 +70,8 @@ Route::middleware(['auth'])->group(function () {
     ->where('type', 'confirmed|pending|cancelled')
     ->name('order-type.index');
 
+  Route::get('/get-zones', [OrderController::class, 'getZones']);
+
   Route::resource('/pages', PageController::class);
 
   //settings

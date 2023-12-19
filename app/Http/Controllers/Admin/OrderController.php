@@ -9,6 +9,7 @@ use App\Models\Order;
 use App\Models\Product;
 use App\Models\Setting;
 use App\Models\Variation;
+use App\Models\Zone;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -132,7 +133,7 @@ class OrderController extends Controller
       'customer_name', 'customer_mobile', 'customer_address',
       'customer_city', 'customer_zone',
       'shipping_charge', 'customer_id',
-      'status', 'date',
+      'status', 'date', 'note',
     ]);
 
     $items = $request->input('items');
@@ -187,6 +188,8 @@ class OrderController extends Controller
     $orderData['delivered_to'] = $deliveredTo;
     $orderData['source'] = 'pos';
 
+    $orderData['shipping_address'] = $request->input('customer_address') . ', ' . $request->input('customer_zone') . ', ' . $request->input('customer_city');
+
     DB::beginTransaction();
 
     try {
@@ -227,13 +230,20 @@ class OrderController extends Controller
 
     $cities = City::getForDropdown();
 
+    $zones = Zone::join('cities', 'zones.city_id', '=', 'cities.id')
+      ->where('cities.name', $order->customer_city)
+      ->select('zones.name', 'zones.name')
+      ->orderBy('zones.name', 'asc')
+      ->pluck('zones.name', 'zones.name');
+
     return view('order.edit', [
       'order' => $order,
       'orderStatuses' => $this->orderStatuses,
       'shippingStatuses' => $this->shippingStatuses,
       'deliveredTo' => $this->deliveredTo,
       'settings' => $settings,
-      'cities' => $cities
+      'cities' => $cities,
+      'zones' => $zones
     ]);
 
   }
@@ -253,7 +263,8 @@ class OrderController extends Controller
       'customer_name', 'customer_mobile', 'customer_address',
       'customer_city', 'customer_zone',
       'shipping_charge', 'customer_id',
-      'status', 'date',
+      'status', 'date', 'shipping_status',
+      'note',
     ]);
 
     $order = Order::findOrFail($id);
@@ -307,6 +318,7 @@ class OrderController extends Controller
     $orderData['shipping_charge'] = $shippingCharge;
     $orderData['total_amount'] = $total;
     $orderData['delivered_to'] = $deliveredTo;
+    $orderData['shipping_address'] = $request->input('customer_address') . ', ' . $request->input('customer_zone') . ', ' . $request->input('customer_city');
 
     DB::beginTransaction();
 
@@ -365,6 +377,20 @@ class OrderController extends Controller
     $order->save();
 
     return response()->json(['status' => 'success', 'message' => 'Shipping status updated']);
+
+  }
+
+  function getZones(Request $request)
+  {
+    $cityName = $request->input('city_name');
+
+    $zones = Zone::join('cities', 'zones.city_id', '=', 'cities.id')
+      ->where('cities.name', $cityName)
+      ->select('zones.name', 'zones.name')
+      ->orderBy('zones.name', 'asc')
+      ->get();
+
+    return response()->json($zones);
 
   }
 

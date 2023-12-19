@@ -1,5 +1,15 @@
 @extends('layouts.layoutMaster')
 
+@section('title', 'Add Order')
+
+@section('vendor-style')
+  <link rel="stylesheet" href="{{asset(mix('assets/vendor/libs/flatpickr/flatpickr.css'))}}">
+@endsection
+
+@section('vendor-script')
+  <script src="{{asset(mix('assets/vendor/libs/flatpickr/flatpickr.js'))}}"></script>
+@endsection
+
 @section('content')
   <x-content title="Add Order">
 
@@ -32,8 +42,9 @@
             <x-form.input
               name="date"
               label="Date"
-              type="datetime-local"
-              value="{{now()}}"
+              id="date"
+              autocomplete="off"
+              value="{{now()->timezone('Asia/Dhaka')}}"
             />
           </div>
         </div>
@@ -166,15 +177,6 @@
           />
         </div>
 
-        <div>
-          <x-form.input
-            name="customer_address"
-            label="Customer Address"
-            :required="true"
-            data-rules="required"
-          />
-        </div>
-
         <div class="col-sm-6">
           <x-form.select
             name="customer_city"
@@ -187,10 +189,20 @@
         </div>
 
         <div class="col-sm-6">
-          <x-form.input
+          <x-form.select
             name="customer_zone"
-            id="area"
+            id="zone"
             label="Area"
+            :options="[]"
+            :required="true"
+            data-rules="required"
+          />
+        </div>
+
+        <div class="col-sm-6">
+          <x-form.input
+            name="customer_address"
+            label="Customer Address"
             :required="true"
             data-rules="required"
           />
@@ -228,6 +240,13 @@
 @section('js')
   <script>
     $(document).ready(function () {
+
+      $('#date').flatpickr({
+        format: 'yyyy-mm-dd',
+        enableTime: true,
+        enableSeconds: true,
+        minuteIncrement: 1,
+      })
 
       $('#customer_id').select2({
         minimumInputLength: 2,
@@ -405,8 +424,25 @@
 
       $('#city').select2({})
 
-      $(document).on('click', '.remove-item-btn', function (){
+      $(document).on('click', '.remove-item-btn', function () {
         $(this).closest('tr').remove();
+      })
+
+      $('#city').on('change', function () {
+        $.ajax({
+          url: '/get-zones?city_name=' + this.value,
+          type: "GET",
+          dataType: 'json',
+          success: function (data) {
+            let options = '<option value="">Select Zone</option>';
+
+            $.each(data, function (key, value) {
+              options += '<option value="' + value.name + '">' + value.name + '</option>';
+            })
+            $('#zone').html(options);
+            $('#zone').select2({});
+          }
+        })
       })
 
     })

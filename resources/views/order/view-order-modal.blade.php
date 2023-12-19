@@ -64,8 +64,8 @@
           <td>{{$order->customer_mobile}}</td>
         </tr>
         <tr>
-          <th>Address</th>
-          <td>{{$order->customer_address}}</td>
+          <th>Shipping Address</th>
+          <td>{{$order->shipping_address}}</td>
         </tr>
       </table>
     </div>

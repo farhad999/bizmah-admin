@@ -1,5 +1,7 @@
 @extends('layouts.layoutMaster')
 
+@section('title', 'Update Order')
+
 @section('content')
   <x-content title="Add Order">
 
@@ -175,19 +177,9 @@
           />
         </div>
 
-        <div>
-          <x-form.input
-            name="customer_address"
-            label="Customer Address"
-            :required="true"
-            data-rules="required"
-            value="{{$order->customer_address}}"
-          />
-        </div>
-
         <div class="col-sm-6">
           <x-form.select
-            name="customer_city"
+            name="customer_city_id"
             id="city"
             label="City"
             :options="$cities"
@@ -198,13 +190,24 @@
         </div>
 
         <div class="col-sm-6">
-          <x-form.input
-            name="customer_zone"
-            id="area"
+          <x-form.select
+            name="customer_zone_id"
+            id="zone"
             label="Area"
+            :options="$zones"
             :required="true"
             data-rules="required"
             value="{{$order->customer_zone}}"
+          />
+        </div>
+
+        <div class="col-sm-6">
+          <x-form.input
+            name="customer_address"
+            label="Customer Address"
+            :required="true"
+            data-rules="required"
+            value="{{$order->customer_address}}"
           />
         </div>
 
@@ -420,6 +423,23 @@
 
       $(document).on('click', '.remove-item-btn', function (){
         $(this).closest('tr').remove();
+      })
+
+      $('#city').on('change', function () {
+        $.ajax({
+          url: '/get-zones?city_id=' + this.value,
+          type: "GET",
+          dataType: 'json',
+          success: function (data) {
+            let options = '<option value="">Select Zone</option>';
+
+            $.each(data, function (key, value) {
+              options += '<option value="' + value.id + '">' + value.name + '</option>';
+            })
+            $('#zone').html(options);
+            $('#zone').select2({});
+          }
+        })
       })
 
     })
