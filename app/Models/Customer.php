@@ -12,6 +12,8 @@ class Customer extends Authenticatable
 {
   use HasFactory, HasApiTokens, SoftDeletes;
 
+  protected $guarded = ['id'];
+
   function addresses()
   {
     return $this->hasMany(Address::class, 'customer_id');

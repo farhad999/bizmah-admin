@@ -25,13 +25,18 @@
     },
     {
       "name": "Customers",
-      "icon": "menu-icon tf-icons ti ti-user",
+      "icon": "menu-icon tf-icons ti ti-users",
       "slug": "customers",
       "submenu": [
         {
           "url": "/customers",
           "name": "Customers",
           "slug": "customers.index"
+        },
+        {
+          "url": "/customers/create",
+          "name": "Add Customer",
+          "slug": "customers.create"
         }
       ]
     },

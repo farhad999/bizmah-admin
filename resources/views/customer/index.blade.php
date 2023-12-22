@@ -1,12 +1,14 @@
 @extends('layouts.layoutMaster')
 
+@section('title', 'Customers')
+
 @section('content')
   <x-content title="Customers">
-    {{--<x-slot name="buttons">
+    <x-slot name="buttons">
       <a href="{{route("customers.create")}}" class="btn btn-primary">Add Customer</a>
-    </x-slot>--}}
+    </x-slot>
 
-    <table class="table table-hover" id="datatable">
+    <table class="table table-bordered" id="datatable">
       <thead>
       <tr>
         <th>Name</th>
