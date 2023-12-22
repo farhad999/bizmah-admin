@@ -114,7 +114,7 @@ class OrderController extends ApiController
     $orderData['customer_id'] = $user->id ?? null;
     $orderData['delivered_to'] = $deliveredTo;
     $orderData['source'] = 'website';
-    $orderData['date'] = now();
+    $orderData['date'] = now()->timezone('Asia/Dhaka');
 
     DB::beginTransaction();
 
@@ -162,7 +162,7 @@ class OrderController extends ApiController
         'message' => 'Order created successfully',
         'order_no' => $order->order_no,
         'user_info_updated' => $isUserInfoUpdated
-        ]);
+      ]);
 
     } catch (\Exception $e) {
       DB::rollBack();
