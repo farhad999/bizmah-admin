@@ -145,7 +145,7 @@ class ProductController extends Controller
         ->orderBy('name', 'asc')
         ->with(['children' => function ($query) {
           $query->select('id', 'name', 'slug', 'parent_id', 'image', 'banner_image')
-          ->orderby('name', 'asc');
+            ->orderby('name', 'asc');
         }]);
     }])
       ->join('category_collections', 'categories.id', '=', 'category_collections.category_id')
@@ -160,7 +160,15 @@ class ProductController extends Controller
 
   function show($slug)
   {
-    $product = Product::with(['variations', 'images'])
+    $product = Product::with(['variations' => function ($query) {
+      $query->select('id', 'name', 'price', 'old_price', 'product_id');
+    }, 'category' => function ($query) {
+      $query->select('id', 'name', 'slug');
+    }, 'subCategory' => function ($query) {
+      $query->select('id', 'name', 'slug');
+    }, 'subSubCategory' => function ($query) {
+      $query->select('id', 'name', 'slug');
+    }, 'images'])
       ->where('slug', $slug)
       ->first();
 
@@ -196,7 +204,7 @@ class ProductController extends Controller
     $products = Product::with('variations')
       ->whereIn('id', $variationIds)
       ->select('products.id', 'products.name', 'products.slug', 'products.image', 'type', 'sku',
-        'products.template',
+        'products.template', 'visibility',
       )
       ->get();
 
