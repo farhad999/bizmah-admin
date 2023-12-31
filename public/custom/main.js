@@ -177,3 +177,10 @@ $(document).on('click', '.delete-item-btn', function () {
 $(document).on('change', '.image-input', function () {
   imagePreview(this);
 });
+
+//add additional validation
+jQuery.validator.addMethod("mobileBD", function (phone_number, element) {
+  phone_number = phone_number.replace(/\s+/g, "");
+  return this.optional(element) || phone_number.length > 9 &&
+    phone_number.match(/^([+]{1}[8]{2}|0088)?(01){1}[3-9]{1}\d{8}$/)
+}, "Please specify a valid Mobile number");

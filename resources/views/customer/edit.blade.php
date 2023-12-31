@@ -12,7 +12,7 @@
 
 @section('content')
 
-  <x-error-alert />
+  <x-error-alert/>
 
   <x-content title="Update Customer">
     <x-form action="{{route('customers.update', $customer->id)}}"
@@ -35,7 +35,7 @@
             name="mobile"
             label="Mobile"
             :required="true"
-            data-rules="required"
+            data-rules="required|mobileBD"
             :value="$customer->mobile"
           />
         </div>
@@ -95,7 +95,9 @@
 
     $(document).ready(function () {
 
-      $('#city').select2({})
+      $('#city').select2({}).on('change', function () {
+        $(this).valid();
+      })
 
       $('#city').on('change', function () {
         $.ajax({
@@ -112,6 +114,10 @@
             $('#zone').select2({});
           }
         })
+      })
+
+      $('#zone').change(function () {
+        $(this).valid();
       })
 
     })

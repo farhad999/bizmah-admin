@@ -12,7 +12,7 @@
           <th>Mobile</th>
           <td>
             <a href="{{'tel:'.$customer->mobile}}">
-            {{$customer->mobile}}
+              {{$customer->mobile}}
             </a>
           </td>
         </tr>
@@ -32,6 +32,32 @@
         </tr>
       </table>
     </div>
+
+    <h4>Addresses</h4>
+
+    <table class="table table-bordered mb-2">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Mobile</th>
+        <th>Address</th>
+      </tr>
+      </thead>
+      <tbody>
+      @foreach($customer->addresses as $address)
+        <tr>
+          <td>{{$address->customer_name}}</td>
+          <td>
+            <a href="{{'tel:'.$address->mobile}}">
+              {{$address->mobile}}
+            </a>
+          </td>
+          <td>{{$address->address}}</td>
+        </tr>
+      @endforeach
+      <tr>
+      </tbody>
+    </table>
 
     <h4 class="mt-2">Customer's Cart</h4>
 

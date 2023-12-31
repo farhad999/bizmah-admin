@@ -52,8 +52,10 @@ class CustomerController extends Controller
     ]);
 
     $addressData = $request->only([
-      'name', 'mobile', 'city', 'zone', 'address',
+      'mobile', 'city', 'zone', 'address',
     ]);
+
+    $addressData['customer_name'] = $request->input('name');
 
     $customerData['added_by'] = auth()->id();
 
@@ -81,7 +83,8 @@ class CustomerController extends Controller
 
   function show($id)
   {
-    $customer = Customer::find($id);
+    $customer = Customer::with('addresses')
+      ->find($id);
 
     $carts = Cart::with(['product', 'variation'])
       ->where('customer_id', $id)
@@ -123,8 +126,10 @@ class CustomerController extends Controller
     ]);
 
     $addressData = $request->only([
-      'name', 'mobile', 'city', 'zone', 'address',
+      'mobile', 'city', 'zone', 'address',
     ]);
+
+    $addressData['customer_name'] = $request->input('name');
 
     $customerData['added_by'] = auth()->id();
 
@@ -154,7 +159,7 @@ class CustomerController extends Controller
     $customer = Customer::findOrFail($id);
     $customer->delete();
 
-    return response()->json(['status'=> 'success','message' => 'Customer deleted successfully']);
+    return response()->json(['status' => 'success', 'message' => 'Customer deleted successfully']);
   }
 
   function search()

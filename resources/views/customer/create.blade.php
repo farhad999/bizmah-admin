@@ -12,8 +12,11 @@
 
 @section('content')
   <x-content title="Create Customer">
+
+    <x-error-alert></x-error-alert>
+
     <x-form action="{{route('customers.store')}}"
-    id="validate_form"
+            id="validate_form"
     >
       <div class="row">
         <div class="col-sm-6">
@@ -30,7 +33,7 @@
             name="mobile"
             label="Mobile"
             :required="true"
-            data-rules="required"
+            data-rules="required|mobileBD"
           />
         </div>
 
@@ -58,7 +61,7 @@
             :required="true"
             data-rules="required"
             :options="[]"
-            />
+          />
         </div>
 
         <div class="col-sm-6">
@@ -83,9 +86,11 @@
 @section('js')
   <script>
 
-    $(document).ready(function(){
+    $(document).ready(function () {
 
-      $('#city').select2({})
+      $('#city').select2({}).on('change', function () {
+        $(this).valid();
+      })
 
       $('#city').on('change', function () {
         $.ajax({
@@ -102,6 +107,10 @@
             $('#zone').select2({});
           }
         })
+      })
+
+      $('#zone').change(function () {
+        $(this).valid();
       })
 
     })
