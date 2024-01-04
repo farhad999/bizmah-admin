@@ -17,6 +17,7 @@
       @if(!empty($id)) id="{{$id}}" @endif
       @if($required) required="required" @endif
       @if($multiple) multiple="multiple" @endif
+      {{$attributes}}
     />
     @if(!empty($hint))
       <small>{{$hint}}</small>

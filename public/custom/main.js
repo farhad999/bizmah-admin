@@ -43,6 +43,13 @@ $(document).ready(function () {
     return this.optional(element) || /^\d+\.?\d*$/.test(value);
   }, "Only numbers are allowed");
 
+  jQuery.validator.addMethod('size', function (value, element, param) {
+
+    console.log('files', element.files[0], 'param', param);
+
+    return this.optional(element) || (element.files[0].size <= param * 1000)
+  }, 'File size must be less than {0} KB');
+
   //extract rules from form
 
   let selector = "form#validate_form";
@@ -100,8 +107,10 @@ function addRules(form) {
         ruleObj[splitRules[0]] = splitRules[1] ? splitRules[1] : true
       })
     }
+
     $(this).rules('add', ruleObj)
   });
+
 
   return rules;
 }
@@ -157,7 +166,7 @@ $(document).on('click', '.delete-item-btn', function () {
         },
         success: function (res) {
           let {status} = res;
-          if(status === 'error'){
+          if (status === 'error') {
             toastr.error(res.message ?? 'Something went wrong');
             return;
           }
