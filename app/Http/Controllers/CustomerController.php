@@ -177,7 +177,19 @@ class CustomerController extends Controller
     $id = \request()->input('id');
     $customer = Customer::find($id);
 
-    return response()->json($customer);
+    //if customer has orders
+
+    $lastOrder = $customer->orders->last();
+
+    $address = $customer->addresses->first();
+
+    if ($lastOrder && $lastOrder->address_id) {
+      $address = $customer->addresses->where('id', $lastOrder->address_id)
+        ->first();
+    }
+
+    return response()->json(['customer' => $customer, 'address' => $address]);
+
   }
 
 }

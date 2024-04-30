@@ -41,6 +41,8 @@
         <th>Name</th>
         <th>Mobile</th>
         <th>Address</th>
+        <th>City</th>
+        <th>Zone</th>
       </tr>
       </thead>
       <tbody>
@@ -53,6 +55,8 @@
             </a>
           </td>
           <td>{{$address->address}}</td>
+          <td>{{$address->city}}</td>
+          <td>{{$address->zone}}</td>
         </tr>
       @endforeach
       <tr>
