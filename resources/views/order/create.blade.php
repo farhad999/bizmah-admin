@@ -163,6 +163,7 @@
           <x-form.input
             name="customer_name"
             label="Customer Name"
+            id="customer_name"
             :required="true"
             data-rules="required"
           />
@@ -171,6 +172,7 @@
         <div class="col-sm-6">
           <x-form.input
             name="customer_mobile"
+            id="customer_mobile"
             label="Customer Mobile"
             :required="true"
             data-rules="required"
@@ -202,6 +204,7 @@
         <div class="col-sm-6">
           <x-form.input
             name="customer_address"
+            id="customer_address"
             label="Customer Address"
             :required="true"
             data-rules="required"
@@ -283,10 +286,17 @@
           },
           dataType: 'json',
           success: function (data) {
-            $('#customer_name').val(data.name);
-            $('#customer_mobile').val(data.mobile);
-            $('#customer_address').val(data.address);
-            $('#city').val(data.city).trigger('change');
+            let {customer, address} = data;
+            $('#customer_name').val(address.customer_name);
+            $('#customer_mobile').val(address.mobile);
+            $('#customer_address').val(address.address);
+            $('#city').val(address.city).trigger('change');
+
+            updateZones(address.city, function(){
+              $('#zone').val(address.zone).trigger('change');
+            });
+
+
           }
         })
       })
@@ -428,9 +438,16 @@
         $(this).closest('tr').remove();
       })
 
-      $('#city').on('change', function () {
+      $('#city').on('change', function (event) {
+
+        console.log('event', event, 'this', this);
+
+        updateZones(this.value);
+      })
+
+      function updateZones(city, callback) {
         $.ajax({
-          url: '/get-zones?city_name=' + this.value,
+          url: '/get-zones?city_name=' + city,
           type: "GET",
           dataType: 'json',
           success: function (data) {
@@ -441,9 +458,14 @@
             })
             $('#zone').html(options);
             $('#zone').select2({});
+
+            if (typeof callback === 'function') {
+              callback();
+            }
+
           }
         })
-      })
+      }
 
     })
   </script>
