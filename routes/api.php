@@ -61,8 +61,12 @@ Route::middleware('auth:sanctum')->group(function () {
     ->only(['index', 'store']);
 
   //orders
-  Route::resource('/orders', OrderController::class)
+
+    Route::group(['as' => 'api.'], function(){
+      Route::resource('/orders', OrderController::class)
   ->except('store');
+});
+  
 
 });
 
