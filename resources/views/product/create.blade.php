@@ -135,7 +135,7 @@
                   name="image"
                   label="Product Image"
                   :required="true"
-                  data-rules="required"
+                  data-rules="required|size:1024"
                 />
               </div>
 
@@ -143,6 +143,7 @@
                 <x-form.file-input
                   name="secondary_image"
                   label="Secondary Image"
+                  data-rules="required|size:1024"
                 />
               </div>
 
@@ -151,6 +152,7 @@
                   name="gallery_images[]"
                   label="Image Gallery"
                   :multiple="true"
+                  data-rules="required|size:1024"
                 />
               </div>
 
